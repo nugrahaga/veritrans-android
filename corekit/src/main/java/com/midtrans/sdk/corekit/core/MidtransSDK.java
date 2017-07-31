@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.midtrans.sdk.analytics.MixpanelAnalyticsManager;
 import com.midtrans.sdk.corekit.BuildConfig;
@@ -117,7 +118,42 @@ public class MidtransSDK {
     }
 
 
-    protected MidtransSDK(@NonNull CoreKitBuilder sdkBuilder) {
+    protected MidtransSDK(@NonNull NewSdkBuilder sdkBuilder) {
+        initNewCorekitSdk(sdkBuilder);
+
+        this.mSnapTransactionManager = new SnapTransactionManager(sdkBuilder.context, MidtransRestAdapter.getSnapRestAPI(sdkBaseUrl, requestTimeOut),
+                MidtransRestAdapter.getMerchantApiClient(merchantServerUrl, requestTimeOut),
+                MidtransRestAdapter.getVeritransApiClient(BuildConfig.BASE_URL, requestTimeOut));
+
+        this.mMixpanelAnalyticsManager = new MixpanelAnalyticsManager(BuildConfig.VERSION_NAME, SdkUtil.getDeviceId(context), clientKey, getFlow(flow));
+        this.mSnapTransactionManager.setSDKLogEnabled(isLogEnabled);
+    }
+
+
+    protected MidtransSDK(@NonNull NewUiKitBuilder sdkBuilder) {
+        initNewCorekitSdk(sdkBuilder);
+        this.merchantName = sdkBuilder.merchantName;
+        this.uiflow = sdkBuilder.sdkFlow;
+        this.defaultText = sdkBuilder.defaultText;
+        this.semiBoldText = sdkBuilder.semiBoldText;
+        this.boldText = sdkBuilder.boldText;
+        this.externalScanner = sdkBuilder.externalScanner;
+        this.UIKitCustomSetting = sdkBuilder.UIKitCustomSetting == null ? new UIKitCustomSetting() : sdkBuilder.UIKitCustomSetting;
+        this.flow = sdkBuilder.flow;
+
+        if (sdkBuilder.colorTheme != null) {
+            this.colorTheme = sdkBuilder.colorTheme;
+        }
+
+        this.mSnapTransactionManager = new SnapTransactionManager(sdkBuilder.context, MidtransRestAdapter.getSnapRestAPI(sdkBaseUrl, requestTimeOut),
+                MidtransRestAdapter.getMerchantApiClient(merchantServerUrl, requestTimeOut),
+                MidtransRestAdapter.getVeritransApiClient(BuildConfig.BASE_URL, requestTimeOut));
+
+        this.mMixpanelAnalyticsManager = new MixpanelAnalyticsManager(BuildConfig.VERSION_NAME, SdkUtil.getDeviceId(context), clientKey, getFlow(flow));
+        this.mSnapTransactionManager.setSDKLogEnabled(isLogEnabled);
+    }
+
+    private void initNewCorekitSdk(NewSdkBuilder sdkBuilder) {
         this.context = sdkBuilder.context;
         this.clientKey = sdkBuilder.clientKey;
         this.merchantServerUrl = sdkBuilder.merchantBaseUrl;
@@ -130,16 +166,8 @@ public class MidtransSDK {
 
         this.promoEngineManager = new PromoEngineManager(sdkBuilder.context, MidtransRestAdapter.getPromoEngineRestAPI(BuildConfig.PROMO_ENGINE_URL, requestTimeOut));
 
-        this.mSnapTransactionManager = new SnapTransactionManager(sdkBuilder.context, MidtransRestAdapter.getSnapRestAPI(sdkBaseUrl, requestTimeOut),
-                MidtransRestAdapter.getMerchantApiClient(merchantServerUrl, requestTimeOut),
-                MidtransRestAdapter.getVeritransApiClient(BuildConfig.BASE_URL, requestTimeOut));
-
-        this.mMixpanelAnalyticsManager = new MixpanelAnalyticsManager(BuildConfig.VERSION_NAME, SdkUtil.getDeviceId(context), clientKey, getFlow(flow));
-        this.mSnapTransactionManager.setSDKLogEnabled(isLogEnabled);
-
         initializeSharedPreferences();
     }
-
 
     /**
      * get Veritrans SDK instance
@@ -437,7 +465,36 @@ public class MidtransSDK {
      *
      * @param context activity context.
      */
+    private void startCreditCardUIFlow(@NonNull Context context, @NonNull String snapToken) {
+
+        checkSnapToken(snapToken);
+        initCreditCardUiFlow(context);
+    }
+
+
+    private void checkSnapToken(String snapToken) {
+        if (TextUtils.isEmpty(snapToken)) {
+            String message = "snap token cannot be null or empty, please checkout transaction to get snapToken";
+            RuntimeException runtimeException = new RuntimeException(message);
+            Log.e(NewSdkBuilder.UI_FLOW, message, runtimeException);
+            throw runtimeException;
+        } else {
+            LocalDataHandler.saveString(Constants.AUTH_TOKEN, snapToken);
+        }
+    }
+
+
+    /**
+     * This will start actual execution of credit card UI flow.
+     *
+     * @param context activity context.
+     */
     private void startCreditCardUIFlow(@NonNull Context context) {
+        initCreditCardUiFlow(context);
+    }
+
+
+    private void initCreditCardUiFlow(Context context) {
         if (transactionRequest != null && !isRunning()) {
 
             if (transactionRequest.getPaymentMethod() == Constants.PAYMENT_METHOD_NOT_SELECTED) {
@@ -462,6 +519,16 @@ public class MidtransSDK {
      * @param context activity context.
      */
     private void startBankTransferUIFlow(@NonNull Context context) {
+        initBankTransferUiFlow(context);
+    }
+
+
+    private void startBankTransferUIFlow(@NonNull Context context, @NonNull String snapToken) {
+        checkSnapToken(snapToken);
+        initBankTransferUiFlow(context);
+    }
+
+    private void initBankTransferUiFlow(Context context) {
         if (transactionRequest != null && !isRunning()) {
 
             if (transactionRequest.getPaymentMethod() == Constants.PAYMENT_METHOD_NOT_SELECTED) {
@@ -486,6 +553,15 @@ public class MidtransSDK {
      * @param context activity context.
      */
     private void startPermataBankTransferUIFlow(@NonNull Context context) {
+        initPermataBankTransferUiFlow(context);
+    }
+
+    private void startPermataBankTransferUIFlow(@NonNull Context context, @NonNull String snapToken) {
+        checkSnapToken(snapToken);
+        initPermataBankTransferUiFlow(context);
+    }
+
+    private void initPermataBankTransferUiFlow(Context context) {
         if (transactionRequest != null && !isRunning()) {
 
             if (transactionRequest.getPaymentMethod() == Constants.PAYMENT_METHOD_NOT_SELECTED) {
@@ -506,10 +582,20 @@ public class MidtransSDK {
 
     /**
      * This will start actual execution of Bank Transfer UI flow using Mandiri.
+     * todo snaptoken
      *
      * @param context activity context.
      */
     private void startMandiriBankTransferUIFlow(@NonNull Context context) {
+        initMandiriBankTransferUiFlow(context);
+    }
+
+    private void startMandiriBankTransferUIFlow(@NonNull Context context, @NonNull String snapToken) {
+        checkSnapToken(snapToken);
+        initMandiriBankTransferUiFlow(context);
+    }
+
+    private void initMandiriBankTransferUiFlow(Context context) {
         if (transactionRequest != null && !isRunning()) {
 
             if (transactionRequest.getPaymentMethod() == Constants.PAYMENT_METHOD_NOT_SELECTED) {

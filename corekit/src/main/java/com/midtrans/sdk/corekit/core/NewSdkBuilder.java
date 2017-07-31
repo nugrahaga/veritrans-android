@@ -1,6 +1,8 @@
 package com.midtrans.sdk.corekit.core;
 
 import android.content.Context;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback;
 
@@ -23,9 +25,6 @@ public abstract class NewSdkBuilder<T> {
     protected String flow;
 
 
-    public static CoreKitBuilder builder() {
-        return new CoreKitBuilder();
-    }
 
     public abstract T setContext(Context context);
 
@@ -37,6 +36,36 @@ public abstract class NewSdkBuilder<T> {
 
     public abstract T setTransactionFinishedCallback(TransactionFinishedCallback callback);
 
+    public abstract T enableBuiltInTokenStorage(boolean enabled);
+
     public abstract MidtransSDK build();
 
+
+    public void checkSdkProperties() {
+        if (transactionFinishedCallback == null || clientKey == null || context == null) {
+
+            if (context == null) {
+                String message = "Context cannot be null. Please pass application context using setContext()";
+                RuntimeException runtimeException = new RuntimeException(message);
+                Log.e(NewSdkBuilder.CORE_FLOW, message, runtimeException);
+                throw runtimeException;
+            }
+
+            if (TextUtils.isEmpty(clientKey)) {
+                String message = "Client key cannot be null or empty. Please pass the client key using setClientKey()";
+                RuntimeException runtimeException = new RuntimeException(message);
+                Log.e(NewSdkBuilder.CORE_FLOW, message, runtimeException);
+                throw runtimeException;
+            }
+
+            if (transactionFinishedCallback == null) {
+                String message = "You must implement transactionFinishedCallback. Please pass the transaction finished callback using setTransactionFinishedCallback()";
+                RuntimeException runtimeException = new RuntimeException(message);
+                Log.e(NewSdkBuilder.CORE_FLOW, message, runtimeException);
+                throw runtimeException;
+            }
+
+            Logger.e(TAG, "invalid data supplied to sdk");
+        }
+    }
 }

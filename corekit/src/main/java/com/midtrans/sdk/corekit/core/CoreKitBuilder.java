@@ -1,7 +1,6 @@
 package com.midtrans.sdk.corekit.core;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback;
 
@@ -12,6 +11,10 @@ import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback;
 public class CoreKitBuilder extends NewSdkBuilder<CoreKitBuilder> {
 
     private static final String TAG = NewSdkBuilder.class.getSimpleName();
+
+    public static CoreKitBuilder init() {
+        return new CoreKitBuilder();
+    }
 
 
     @Override
@@ -45,29 +48,14 @@ public class CoreKitBuilder extends NewSdkBuilder<CoreKitBuilder> {
     }
 
     @Override
+    public CoreKitBuilder enableBuiltInTokenStorage(boolean enabled) {
+        return null;
+    }
+
+    @Override
     public MidtransSDK build() {
 
-        if (context == null) {
-            String message = "Context cannot be null. Please pass application context using setContext()";
-            RuntimeException runtimeException = new RuntimeException(message);
-            Log.e(NewSdkBuilder.CORE_FLOW, message, runtimeException);
-            throw runtimeException;
-        }
-
-        if (clientKey == null || clientKey.equalsIgnoreCase("")) {
-            String message = "Client key cannot be null or empty. Please pass the client key using setClientKey()";
-            RuntimeException runtimeException = new RuntimeException(message);
-            Log.e(NewSdkBuilder.CORE_FLOW, message, runtimeException);
-            throw runtimeException;
-        }
-
-        if (transactionFinishedCallback == null) {
-            String message = "You must implement transactionFinishedCallback. Please pass the transaction finished callback using setTransactionFinishedCallback()";
-            RuntimeException runtimeException = new RuntimeException(message);
-            Log.e(NewSdkBuilder.CORE_FLOW, message, runtimeException);
-            throw runtimeException;
-        }
-
+        checkSdkProperties();
         return new MidtransSDK(this);
     }
 }
