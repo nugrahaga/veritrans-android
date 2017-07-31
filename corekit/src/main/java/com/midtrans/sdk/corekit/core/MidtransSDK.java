@@ -49,6 +49,7 @@ public class MidtransSDK {
     private static final String TAG = "MidtransSDK";
     private static final String ADD_TRANSACTION_DETAILS = "Add transaction request details.";
     private static final String LOCAL_DATA_PREFERENCES = "local.data";
+
     private static SharedPreferences mPreferences = null;
     private static MidtransSDK midtransSDK;
     protected boolean isRunning = false;
@@ -59,11 +60,15 @@ public class MidtransSDK {
     private MixpanelAnalyticsManager mMixpanelAnalyticsManager;
     private Context context = null;
     private String clientKey = null;
+
     private String merchantServerUrl = null;
+    private String merchantName = null;
+
     private String defaultText = null;
     private String boldText = null;
     private String semiBoldText = null;
-    private String merchantName = null;
+    private BaseColorTheme colorTheme;
+
     private IScanner externalScanner;
     private PromoEngineManager promoEngineManager;
     private SnapTransactionManager mSnapTransactionManager;
@@ -77,7 +82,6 @@ public class MidtransSDK {
     private CreditCard creditCard = new CreditCard();
     private List<PromoResponse> promoResponses = new ArrayList<>();
     private ArrayList<String> banksPointEnabled;
-    private BaseColorTheme colorTheme;
     private MerchantData merchantData;
     private Transaction transaction;
 
@@ -111,6 +115,31 @@ public class MidtransSDK {
 
         initializeSharedPreferences();
     }
+
+
+    protected MidtransSDK(@NonNull CoreKitBuilder sdkBuilder) {
+        this.context = sdkBuilder.context;
+        this.clientKey = sdkBuilder.clientKey;
+        this.merchantServerUrl = sdkBuilder.merchantBaseUrl;
+        this.sdkBaseUrl = BuildConfig.SNAP_BASE_URL;
+        this.transactionFinishedCallback = sdkBuilder.transactionFinishedCallback;
+        this.isLogEnabled = sdkBuilder.enableLog;
+        Logger.enabled = sdkBuilder.enableLog;
+        this.enableBuiltInTokenStorage = sdkBuilder.enableBuiltInTokenStorage;
+        this.flow = sdkBuilder.flow;
+
+        this.promoEngineManager = new PromoEngineManager(sdkBuilder.context, MidtransRestAdapter.getPromoEngineRestAPI(BuildConfig.PROMO_ENGINE_URL, requestTimeOut));
+
+        this.mSnapTransactionManager = new SnapTransactionManager(sdkBuilder.context, MidtransRestAdapter.getSnapRestAPI(sdkBaseUrl, requestTimeOut),
+                MidtransRestAdapter.getMerchantApiClient(merchantServerUrl, requestTimeOut),
+                MidtransRestAdapter.getVeritransApiClient(BuildConfig.BASE_URL, requestTimeOut));
+
+        this.mMixpanelAnalyticsManager = new MixpanelAnalyticsManager(BuildConfig.VERSION_NAME, SdkUtil.getDeviceId(context), clientKey, getFlow(flow));
+        this.mSnapTransactionManager.setSDKLogEnabled(isLogEnabled);
+
+        initializeSharedPreferences();
+    }
+
 
     /**
      * get Veritrans SDK instance
@@ -1763,5 +1792,10 @@ public class MidtransSDK {
 
     public Transaction getTransaction() {
         return transaction;
+    }
+
+
+    public static CoreKitBuilder CoreKitBuilder() {
+        return new CoreKitBuilder();
     }
 }
