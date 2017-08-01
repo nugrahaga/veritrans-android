@@ -12,6 +12,11 @@ public class CoreKitBuilder extends NewSdkBuilder<CoreKitBuilder> {
 
     private static final String TAG = NewSdkBuilder.class.getSimpleName();
 
+    private CoreKitBuilder() {
+
+    }
+
+
     public static CoreKitBuilder init() {
         return new CoreKitBuilder();
     }

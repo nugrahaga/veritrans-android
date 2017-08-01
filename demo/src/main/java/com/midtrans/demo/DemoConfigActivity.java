@@ -153,6 +153,7 @@ public class DemoConfigActivity extends AppCompatActivity implements Transaction
      **/
     private AppCompatRadioButton secureDisabledSelection;
     private AppCompatRadioButton secureEnabledSelection;
+    private AppCompatRadioButton secureRbaSelection;
     /**
      * Radio Button Selection for Issuing Bank
      **/
@@ -320,6 +321,7 @@ public class DemoConfigActivity extends AppCompatActivity implements Transaction
 
         secureDisabledSelection = (AppCompatRadioButton) findViewById(R.id.type_secure_disabled);
         secureEnabledSelection = (AppCompatRadioButton) findViewById(R.id.type_secure_enabled);
+        secureRbaSelection = (AppCompatRadioButton) findViewById(R.id.type_secure_rba);
 
         bankNoneSelection = (AppCompatRadioButton) findViewById(R.id.type_bank_none);
         bankBniSelection = (AppCompatRadioButton) findViewById(R.id.type_bank_bni);
@@ -916,7 +918,18 @@ public class DemoConfigActivity extends AppCompatActivity implements Transaction
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
                 if (checked) {
-                    secureTitle.setText(R.string.secure_type_enabled);
+                    secureTitle.setText(R.string.secure_type_rba);
+                }
+            }
+        });
+
+
+        secureRbaSelection.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                if (checked) {
+                    secureTitle.setText(R.string.secure_type_rba);
+                    normalSelection.setChecked(true);
                 }
             }
         });
@@ -2378,7 +2391,7 @@ public class DemoConfigActivity extends AppCompatActivity implements Transaction
         SdkUIFlowBuilder.init(this, BuildConfig.CLIENT_KEY, BuildConfig.BASE_URL, this)
                 .setExternalScanner(new ScanCard())
                 .enableLog(true)
-                .useBuiltInTokenStorage(false)
+                .useBuiltInTokenStorage(true)
                 .setDefaultText("fonts/SourceSansPro-Regular.ttf")
                 .setBoldText("fonts/SourceSansPro-Bold.ttf")
                 .setSemiBoldText("fonts/SourceSansPro-Semibold.ttf")
@@ -2575,6 +2588,14 @@ public class DemoConfigActivity extends AppCompatActivity implements Transaction
                 userDetail.setUserId("user2@user.com");
             }
         }
+
+        // if rba activated
+        if (secureRbaSelection.isChecked()) {
+            userDetail.setEmail("secure_email_rba@example.com");
+            creditCard.setAuthentication(CreditCard.RBA);
+            creditCard.setSecure(false);
+        }
+
         LocalDataHandler.saveObject(getString(R.string.user_details), userDetail);
         if (customPermataVaEnabledSelection.isChecked()) {
             String vaNumber = customPermataVaEnabledSelection.getText().toString().split(" - ")[1];

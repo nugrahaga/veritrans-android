@@ -16,6 +16,7 @@ import com.midtrans.sdk.corekit.callback.CardTokenCallback;
 import com.midtrans.sdk.corekit.callback.CheckoutCallback;
 import com.midtrans.sdk.corekit.callback.DeleteCardCallback;
 import com.midtrans.sdk.corekit.callback.GetCardCallback;
+import com.midtrans.sdk.corekit.callback.GetTransactionStatusCallback;
 import com.midtrans.sdk.corekit.callback.ObtainPromoCallback;
 import com.midtrans.sdk.corekit.callback.SaveCardCallback;
 import com.midtrans.sdk.corekit.callback.TransactionCallback;
@@ -1727,6 +1728,21 @@ public class MidtransSDK {
     public void deleteCard(@NonNull String authenticationToken, String maskedCard, DeleteCardCallback callback) {
         if (isNetworkAvailable()) {
             mSnapTransactionManager.deleteCard(authenticationToken, maskedCard, callback);
+        } else {
+            callback.onError(new RuntimeException(context.getString(R.string.error_unable_to_connect)));
+        }
+    }
+
+    /**
+     * It will run background task to delete saved card from token storage.
+     *
+     * @param authenticationToken authentication or snap Token.
+     * @param callback            delete card callback to be called after background task was
+     *                            finished.
+     */
+    public void getTransactionStatus(String authenticationToken, GetTransactionStatusCallback callback) {
+        if (isNetworkAvailable()) {
+            mSnapTransactionManager.getTransactionStatus(authenticationToken, callback);
         } else {
             callback.onError(new RuntimeException(context.getString(R.string.error_unable_to_connect)));
         }
