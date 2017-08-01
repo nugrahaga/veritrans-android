@@ -3,8 +3,8 @@ package com.midtrans.sdk.uikit;
 import android.content.Context;
 
 import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback;
+import com.midtrans.sdk.corekit.core.NewSdkBuilder;
 import com.midtrans.sdk.corekit.core.NewUiKitBuilder;
-import com.midtrans.sdk.corekit.core.MidtransSDK;
 
 /**
  * Created by ziahaqi on 7/31/17.

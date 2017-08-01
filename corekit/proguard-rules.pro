@@ -131,6 +131,9 @@
 -keep class com.midtrans.sdk.corekit.core.PaymentMethods{*;}
 -keep class com.midtrans.sdk.corekit.callback.** { *; }
 -keep class com.midtrans.sdk.corekit.core.PaymentMethod{*;}
+-keep class com.midtrans.sdk.corekit.core.NewSdkBuilder {*;}
+-keep class com.midtrans.sdk.corekit.core.SdkCoreKitBuilder {*;}
+-keep class com.midtrans.sdk.corekit.core.NewUiKitBuilder {*;}
 
 
 # RxJava 0.21

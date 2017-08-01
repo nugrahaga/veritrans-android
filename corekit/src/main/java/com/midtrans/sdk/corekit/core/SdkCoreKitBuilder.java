@@ -8,52 +8,52 @@ import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback;
  * Created by ziahaqi on 7/30/17.
  */
 
-public class CoreKitBuilder extends NewSdkBuilder<CoreKitBuilder> {
+public class SdkCoreKitBuilder extends NewSdkBuilder<SdkCoreKitBuilder> {
 
     private static final String TAG = NewSdkBuilder.class.getSimpleName();
 
-    private CoreKitBuilder() {
+    private SdkCoreKitBuilder() {
 
     }
 
 
-    public static CoreKitBuilder init() {
-        return new CoreKitBuilder();
+    public static SdkCoreKitBuilder init() {
+        return new SdkCoreKitBuilder();
     }
 
 
     @Override
-    public CoreKitBuilder setContext(Context context) {
+    public SdkCoreKitBuilder setContext(Context context) {
         this.context = context;
         return this;
     }
 
     @Override
-    public CoreKitBuilder setClientKey(String clientKey) {
+    public SdkCoreKitBuilder setClientKey(String clientKey) {
         this.clientKey = clientKey;
         return this;
     }
 
     @Override
-    public CoreKitBuilder enableLog(boolean enabled) {
+    public SdkCoreKitBuilder enableLog(boolean enabled) {
         this.enableLog = enabled;
         return this;
     }
 
     @Override
-    public CoreKitBuilder setMerchantBaseUrl(String merchantBaseUrl) {
+    public SdkCoreKitBuilder setMerchantBaseUrl(String merchantBaseUrl) {
         this.merchantBaseUrl = merchantBaseUrl;
         return this;
     }
 
     @Override
-    public CoreKitBuilder setTransactionFinishedCallback(TransactionFinishedCallback callback) {
+    public SdkCoreKitBuilder setTransactionFinishedCallback(TransactionFinishedCallback callback) {
         this.transactionFinishedCallback = callback;
         return this;
     }
 
     @Override
-    public CoreKitBuilder enableBuiltInTokenStorage(boolean enabled) {
+    public SdkCoreKitBuilder enableBuiltInTokenStorage(boolean enabled) {
         return null;
     }
 

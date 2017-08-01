@@ -119,7 +119,7 @@ public class DemoOrderReviewActivity extends AppCompatActivity implements Transa
         payBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MidtransSDK.getInstance().startPaymentUiFlow(DemoOrderReviewActivity.this);
+                MidtransSDK.getInstance().startPaymentUiFlow(DemoOrderReviewActivity.this, "");
                 overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
             }
         });

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
+import android.widget.Toast;
 
 import com.midtrans.sdk.analytics.MixpanelAnalyticsManager;
 import com.midtrans.sdk.corekit.BuildConfig;
@@ -461,6 +461,93 @@ public class MidtransSDK {
         }
     }
 
+
+    public void startPaymentUiFlow(Context context, PaymentMethod paymentMethod, String snapToken) {
+        checkSnapToken(snapToken);
+        initUiFlowDirectPayment(context, paymentMethod);
+    }
+
+    private void initUiFlowDirectPayment(Context context, PaymentMethod paymentMethod) {
+        if (paymentMethod.equals(PaymentMethod.CREDIT_CARD)) {
+            startCreditCardUIFlow(context);
+        } else if (paymentMethod.equals(PaymentMethod.BANK_TRANSFER)) {
+            startBankTransferUIFlow(context);
+        } else if (paymentMethod.equals(PaymentMethod.BANK_TRANSFER_BCA)) {
+            startBCABankTransferUIFlow(context);
+        } else if (paymentMethod.equals(PaymentMethod.BANK_TRANSFER_PERMATA)) {
+            startPermataBankTransferUIFlow(context);
+        } else if (paymentMethod.equals(PaymentMethod.BANK_TRANSFER_MANDIRI)) {
+            startMandiriBankTransferUIFlow(context);
+        } else if (paymentMethod.equals(PaymentMethod.BANK_TRANSFER_BNI)) {
+            startBniBankTransferUIFlow(context);
+        } else if (paymentMethod.equals(PaymentMethod.BANK_TRANSFER_OTHER)) {
+            startOtherBankTransferUIFlow(context);
+        } else if (paymentMethod.equals(PaymentMethod.BCA_KLIKPAY)) {
+            startBCAKlikPayUIFlow(context);
+        } else if (paymentMethod.equals(PaymentMethod.KLIKBCA)) {
+            startKlikBCAUIFlow(context);
+        } else if (paymentMethod.equals(PaymentMethod.MANDIRI_CLICKPAY)) {
+            startMandiriClickpayUIFlow(context);
+        } else if (paymentMethod.equals(PaymentMethod.MANDIRI_ECASH)) {
+            startMandiriECashUIFlow(context);
+        } else if (paymentMethod.equals(PaymentMethod.EPAY_BRI)) {
+            startBRIEpayUIFlow(context);
+        } else if (paymentMethod.equals(PaymentMethod.CIMB_CLICKS)) {
+            startCIMBClicksUIFlow(context);
+        } else if (paymentMethod.equals(PaymentMethod.TELKOMSEL_CASH)) {
+            startTelkomselCashUIFlow(context);
+        } else if (paymentMethod.equals(PaymentMethod.INDOSAT_DOMPETKU)) {
+            startIndosatDompetkuUIFlow(context);
+        } else if (paymentMethod.equals(PaymentMethod.XL_TUNAI)) {
+            startXlTunaiUIFlow(context);
+        } else if (paymentMethod.equals(PaymentMethod.INDOMARET)) {
+            startIndomaretUIFlow(context);
+        } else if (paymentMethod.equals(PaymentMethod.KIOSON)) {
+            startKiosonUIFlow(context);
+        } else if (paymentMethod.equals(PaymentMethod.GIFT_CARD_INDONESIA)) {
+            startGiftCardUIFlow(context);
+        } else {
+            startPaymentUiFlow(context);
+        }
+    }
+
+
+    /**
+     * This will start actual execution of transaction. if you have enabled an ui then it will start
+     * activity according to it.
+     *
+     * @param context current activity.
+     */
+    public void startPaymentUiFlow(Context context) {
+        initPaymentUiFlow(context);
+    }
+
+    public void startPaymentUiFlow(Context context, String checkoutToken) {
+        checkSnapToken(checkoutToken);
+        initPaymentUiFlow(context);
+    }
+
+    private void initPaymentUiFlow(Context context) {
+        if (transactionRequest != null && !isRunning) {
+
+            if (transactionRequest.getPaymentMethod() == Constants
+                    .PAYMENT_METHOD_NOT_SELECTED) {
+                transactionRequest.enableUi(true);
+                if (uiflow != null) {
+                    uiflow.runUIFlow(context);
+                }
+            }
+
+        } else {
+            if (transactionRequest == null) {
+                Logger.e(TAG, ADD_TRANSACTION_DETAILS);
+            } else {
+                Logger.e(TAG, context.getString(R.string.error_already_running));
+            }
+        }
+    }
+
+
     /**
      * This will start actual execution of credit card UI flow.
      *
@@ -476,9 +563,8 @@ public class MidtransSDK {
     private void checkSnapToken(String snapToken) {
         if (TextUtils.isEmpty(snapToken)) {
             String message = "snap token cannot be null or empty, please checkout transaction to get snapToken";
-            RuntimeException runtimeException = new RuntimeException(message);
-            Log.e(NewSdkBuilder.UI_FLOW, message, runtimeException);
-            throw runtimeException;
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+            Logger.e(TAG, message);
         } else {
             LocalDataHandler.saveString(Constants.AUTH_TOKEN, snapToken);
         }
@@ -963,33 +1049,6 @@ public class MidtransSDK {
                 transactionRequest.enableUi(true);
                 if (uiflow != null) {
                     uiflow.runGci(context);
-                }
-            }
-
-        } else {
-            if (transactionRequest == null) {
-                Logger.e(TAG, ADD_TRANSACTION_DETAILS);
-            } else {
-                Logger.e(TAG, context.getString(R.string.error_already_running));
-            }
-        }
-    }
-
-    /**
-     * This will start actual execution of transaction. if you have enabled an ui then it will start
-     * activity according to it.
-     *
-     * @param context current activity.
-     */
-    public void startPaymentUiFlow(Context context) {
-
-        if (transactionRequest != null && !isRunning) {
-
-            if (transactionRequest.getPaymentMethod() == Constants
-                    .PAYMENT_METHOD_NOT_SELECTED) {
-                transactionRequest.enableUi(true);
-                if (uiflow != null) {
-                    uiflow.runUIFlow(context);
                 }
             }
 
@@ -1897,7 +1956,4 @@ public class MidtransSDK {
     }
 
 
-    public static CoreKitBuilder CoreKitBuilder() {
-        return new CoreKitBuilder();
-    }
 }
