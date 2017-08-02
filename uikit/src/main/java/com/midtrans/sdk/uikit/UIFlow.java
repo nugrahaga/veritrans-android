@@ -13,7 +13,7 @@ import com.midtrans.sdk.uikit.activities.UserDetailsActivity;
 public class UIFlow implements ISdkFlow {
 
     @Override
-    public void runUIFlow(Context context) {
+    public void runUIFlow(Context context, String snapToken) {
         MidtransSDK sdk = MidtransSDK.getInstance();
         if (sdk != null) {
             context.startActivity(new Intent(context,
@@ -22,7 +22,7 @@ public class UIFlow implements ISdkFlow {
     }
 
     @Override
-    public void runCreditCard(Context context) {
+    public void runCreditCard(Context context, String snapToken) {
         MidtransSDK sdk = MidtransSDK.getInstance();
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
@@ -32,7 +32,7 @@ public class UIFlow implements ISdkFlow {
     }
 
     @Override
-    public void runBankTransfer(Context context) {
+    public void runBankTransfer(Context context, String snapToken) {
         MidtransSDK sdk = MidtransSDK.getInstance();
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
@@ -42,7 +42,7 @@ public class UIFlow implements ISdkFlow {
     }
 
     @Override
-    public void runPermataBankTransfer(Context context) {
+    public void runPermataBankTransfer(Context context, String snapToken) {
         MidtransSDK sdk = MidtransSDK.getInstance();
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
@@ -53,7 +53,7 @@ public class UIFlow implements ISdkFlow {
     }
 
     @Override
-    public void runMandiriBankTransfer(Context context) {
+    public void runMandiriBankTransfer(Context context, String snapToken) {
         MidtransSDK sdk = MidtransSDK.getInstance();
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
@@ -64,7 +64,7 @@ public class UIFlow implements ISdkFlow {
     }
 
     @Override
-    public void runBniBankTransfer(Context context) {
+    public void runBniBankTransfer(Context context, String snapToken) {
         MidtransSDK sdk = MidtransSDK.getInstance();
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
@@ -75,7 +75,7 @@ public class UIFlow implements ISdkFlow {
     }
 
     @Override
-    public void runBCABankTransfer(Context context) {
+    public void runBCABankTransfer(Context context, String snapToken) {
         MidtransSDK sdk = MidtransSDK.getInstance();
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
@@ -86,7 +86,7 @@ public class UIFlow implements ISdkFlow {
     }
 
     @Override
-    public void runOtherBankTransfer(Context context) {
+    public void runOtherBankTransfer(Context context, String snapToken) {
         MidtransSDK sdk = MidtransSDK.getInstance();
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
@@ -97,7 +97,7 @@ public class UIFlow implements ISdkFlow {
     }
 
     @Override
-    public void runBCAKlikPay(Context context) {
+    public void runBCAKlikPay(Context context, String snapToken) {
         MidtransSDK sdk = MidtransSDK.getInstance();
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
@@ -107,7 +107,7 @@ public class UIFlow implements ISdkFlow {
     }
 
     @Override
-    public void runKlikBCA(Context context) {
+    public void runKlikBCA(Context context, String snapToken) {
         MidtransSDK sdk = MidtransSDK.getInstance();
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
@@ -117,7 +117,7 @@ public class UIFlow implements ISdkFlow {
     }
 
     @Override
-    public void runMandiriClickpay(Context context) {
+    public void runMandiriClickpay(Context context, String snapToken) {
         MidtransSDK sdk = MidtransSDK.getInstance();
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
@@ -127,7 +127,7 @@ public class UIFlow implements ISdkFlow {
     }
 
     @Override
-    public void runMandiriECash(Context context) {
+    public void runMandiriECash(Context context, String snapToken) {
         MidtransSDK sdk = MidtransSDK.getInstance();
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
@@ -137,7 +137,7 @@ public class UIFlow implements ISdkFlow {
     }
 
     @Override
-    public void runCIMBClicks(Context context) {
+    public void runCIMBClicks(Context context, String snapToken) {
         MidtransSDK sdk = MidtransSDK.getInstance();
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
@@ -147,7 +147,7 @@ public class UIFlow implements ISdkFlow {
     }
 
     @Override
-    public void runBRIEpay(Context context) {
+    public void runBRIEpay(Context context, String snapToken) {
         MidtransSDK sdk = MidtransSDK.getInstance();
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
@@ -157,7 +157,7 @@ public class UIFlow implements ISdkFlow {
     }
 
     @Override
-    public void runTelkomselCash(Context context) {
+    public void runTelkomselCash(Context context, String snapToken) {
         MidtransSDK sdk = MidtransSDK.getInstance();
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
@@ -167,7 +167,7 @@ public class UIFlow implements ISdkFlow {
     }
 
     @Override
-    public void runIndosatDompetku(Context context) {
+    public void runIndosatDompetku(Context context, String snapToken) {
         MidtransSDK sdk = MidtransSDK.getInstance();
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
@@ -177,7 +177,7 @@ public class UIFlow implements ISdkFlow {
     }
 
     @Override
-    public void runXlTunai(Context context) {
+    public void runXlTunai(Context context, String snapToken) {
         MidtransSDK sdk = MidtransSDK.getInstance();
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
@@ -187,7 +187,7 @@ public class UIFlow implements ISdkFlow {
     }
 
     @Override
-    public void runIndomaret(Context context) {
+    public void runIndomaret(Context context, String snapToken) {
         MidtransSDK sdk = MidtransSDK.getInstance();
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
@@ -197,7 +197,7 @@ public class UIFlow implements ISdkFlow {
     }
 
     @Override
-    public void runKioson(Context context) {
+    public void runKioson(Context context, String snapToken) {
         MidtransSDK sdk = MidtransSDK.getInstance();
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
@@ -207,7 +207,7 @@ public class UIFlow implements ISdkFlow {
     }
 
     @Override
-    public void runGci(Context context) {
+    public void runGci(Context context, String snapToken) {
         MidtransSDK sdk = MidtransSDK.getInstance();
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);

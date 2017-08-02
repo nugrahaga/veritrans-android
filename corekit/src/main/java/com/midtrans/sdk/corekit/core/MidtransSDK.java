@@ -418,58 +418,24 @@ public class MidtransSDK {
      * @param paymentMethod payment method.
      */
     public void startPaymentUiFlow(Context context, PaymentMethod paymentMethod) {
-        if (paymentMethod.equals(PaymentMethod.CREDIT_CARD)) {
-            startCreditCardUIFlow(context);
-        } else if (paymentMethod.equals(PaymentMethod.BANK_TRANSFER)) {
-            startBankTransferUIFlow(context);
-        } else if (paymentMethod.equals(PaymentMethod.BANK_TRANSFER_BCA)) {
-            startBCABankTransferUIFlow(context);
-        } else if (paymentMethod.equals(PaymentMethod.BANK_TRANSFER_PERMATA)) {
-            startPermataBankTransferUIFlow(context);
-        } else if (paymentMethod.equals(PaymentMethod.BANK_TRANSFER_MANDIRI)) {
-            startMandiriBankTransferUIFlow(context);
-        } else if (paymentMethod.equals(PaymentMethod.BANK_TRANSFER_BNI)) {
-            startBniBankTransferUIFlow(context);
-        } else if (paymentMethod.equals(PaymentMethod.BANK_TRANSFER_OTHER)) {
-            startOtherBankTransferUIFlow(context);
-        } else if (paymentMethod.equals(PaymentMethod.BCA_KLIKPAY)) {
-            startBCAKlikPayUIFlow(context);
-        } else if (paymentMethod.equals(PaymentMethod.KLIKBCA)) {
-            startKlikBCAUIFlow(context);
-        } else if (paymentMethod.equals(PaymentMethod.MANDIRI_CLICKPAY)) {
-            startMandiriClickpayUIFlow(context);
-        } else if (paymentMethod.equals(PaymentMethod.MANDIRI_ECASH)) {
-            startMandiriECashUIFlow(context);
-        } else if (paymentMethod.equals(PaymentMethod.EPAY_BRI)) {
-            startBRIEpayUIFlow(context);
-        } else if (paymentMethod.equals(PaymentMethod.CIMB_CLICKS)) {
-            startCIMBClicksUIFlow(context);
-        } else if (paymentMethod.equals(PaymentMethod.TELKOMSEL_CASH)) {
-            startTelkomselCashUIFlow(context);
-        } else if (paymentMethod.equals(PaymentMethod.INDOSAT_DOMPETKU)) {
-            startIndosatDompetkuUIFlow(context);
-        } else if (paymentMethod.equals(PaymentMethod.XL_TUNAI)) {
-            startXlTunaiUIFlow(context);
-        } else if (paymentMethod.equals(PaymentMethod.INDOMARET)) {
-            startIndomaretUIFlow(context);
-        } else if (paymentMethod.equals(PaymentMethod.KIOSON)) {
-            startKiosonUIFlow(context);
-        } else if (paymentMethod.equals(PaymentMethod.GIFT_CARD_INDONESIA)) {
-            startGiftCardUIFlow(context);
-        } else {
-            startPaymentUiFlow(context);
+        initUiFlowDirectPayment(context, paymentMethod, null);
+    }
+
+    /**
+     * Start payment UI flow by passing snap token.
+     *
+     * @param context       activity context.
+     * @param paymentMethod payment method.
+     */
+    public void startPaymentUiFlow(Context context, PaymentMethod paymentMethod, String snapToken) {
+        if (snapTokenAvailable(snapToken)) {
+            initUiFlowDirectPayment(context, paymentMethod, snapToken);
         }
     }
 
-
-    public void startPaymentUiFlow(Context context, PaymentMethod paymentMethod, String snapToken) {
-        checkSnapToken(snapToken);
-        initUiFlowDirectPayment(context, paymentMethod);
-    }
-
-    private void initUiFlowDirectPayment(Context context, PaymentMethod paymentMethod) {
+    private void initUiFlowDirectPayment(Context context, PaymentMethod paymentMethod, String snapToken) {
         if (paymentMethod.equals(PaymentMethod.CREDIT_CARD)) {
-            startCreditCardUIFlow(context);
+            startCreditCardUIFlow(context, snapToken);
         } else if (paymentMethod.equals(PaymentMethod.BANK_TRANSFER)) {
             startBankTransferUIFlow(context);
         } else if (paymentMethod.equals(PaymentMethod.BANK_TRANSFER_BCA)) {
@@ -519,15 +485,15 @@ public class MidtransSDK {
      * @param context current activity.
      */
     public void startPaymentUiFlow(Context context) {
-        initPaymentUiFlow(context);
+        initPaymentUiFlow(context, null);
     }
 
-    public void startPaymentUiFlow(Context context, String checkoutToken) {
-        checkSnapToken(checkoutToken);
-        initPaymentUiFlow(context);
+    public void startPaymentUiFlow(Context context, String snapToken) {
+        snapTokenAvailable(snapToken);
+        initPaymentUiFlow(context, snapToken);
     }
 
-    private void initPaymentUiFlow(Context context) {
+    private void initPaymentUiFlow(Context context, String snapToken) {
         if (transactionRequest != null && !isRunning) {
 
             if (transactionRequest.getPaymentMethod() == Constants
@@ -555,19 +521,20 @@ public class MidtransSDK {
      */
     private void startCreditCardUIFlow(@NonNull Context context, @NonNull String snapToken) {
 
-        checkSnapToken(snapToken);
+        snapTokenAvailable(snapToken);
         initCreditCardUiFlow(context);
     }
 
 
-    private void checkSnapToken(String snapToken) {
+    private boolean snapTokenAvailable(String snapToken) {
         if (TextUtils.isEmpty(snapToken)) {
             String message = "snap token cannot be null or empty, please checkout transaction to get snapToken";
             Toast.makeText(context, message, Toast.LENGTH_LONG).show();
             Logger.e(TAG, message);
-        } else {
-            LocalDataHandler.saveString(Constants.AUTH_TOKEN, snapToken);
+            return false;
         }
+        LocalDataHandler.saveString(Constants.AUTH_TOKEN, snapToken);
+        return true;
     }
 
 
@@ -611,7 +578,7 @@ public class MidtransSDK {
 
 
     private void startBankTransferUIFlow(@NonNull Context context, @NonNull String snapToken) {
-        checkSnapToken(snapToken);
+        snapTokenAvailable(snapToken);
         initBankTransferUiFlow(context);
     }
 
@@ -644,7 +611,7 @@ public class MidtransSDK {
     }
 
     private void startPermataBankTransferUIFlow(@NonNull Context context, @NonNull String snapToken) {
-        checkSnapToken(snapToken);
+        snapTokenAvailable(snapToken);
         initPermataBankTransferUiFlow(context);
     }
 
@@ -678,7 +645,7 @@ public class MidtransSDK {
     }
 
     private void startMandiriBankTransferUIFlow(@NonNull Context context, @NonNull String snapToken) {
-        checkSnapToken(snapToken);
+        snapTokenAvailable(snapToken);
         initMandiriBankTransferUiFlow(context);
     }
 
