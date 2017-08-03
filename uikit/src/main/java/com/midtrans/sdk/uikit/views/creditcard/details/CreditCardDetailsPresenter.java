@@ -214,9 +214,13 @@ public class CreditCardDetailsPresenter {
     }
 
     public void startNormalPayment(boolean saveCard) {
-        CreditCardPaymentModel model = new CreditCardPaymentModel(creditCardToken.getTokenId(), saveCard);
-        applyPaymentProperties(model);
-        startCreditCardPayment(model);
+        if (creditCardToken != null) {
+            CreditCardPaymentModel model = new CreditCardPaymentModel(creditCardToken.getTokenId(), saveCard);
+            applyPaymentProperties(model);
+            startCreditCardPayment(model);
+        } else {
+            view.onPaymentError(new Throwable(context.getString(R.string.message_payment_failed)));
+        }
     }
 
 
@@ -342,7 +346,6 @@ public class CreditCardDetailsPresenter {
         midtransSDK.saveCards(userDetail.getUserId(), cardList, new SaveCardCallback() {
             @Override
             public void onSuccess(SaveCardResponse response) {
-                SdkUIFlowUtil.hideProgressDialog();
                 view.onCardDeletionSuccess(maskedCard);
             }
 
@@ -363,7 +366,6 @@ public class CreditCardDetailsPresenter {
         midtransSDK.deleteCard(midtransSDK.readAuthenticationToken(), savedCard.getMaskedCard(), new DeleteCardCallback() {
             @Override
             public void onSuccess(Void object) {
-                SdkUIFlowUtil.hideProgressDialog();
                 view.onCardDeletionSuccess(savedCard.getMaskedCard());
             }
 
@@ -447,23 +449,27 @@ public class CreditCardDetailsPresenter {
 
 
     public void getBankPoint(final String bankType) {
-        MidtransSDK.getInstance().getBanksPoint(creditCardToken.getTokenId(), new BanksPointCallback() {
-            @Override
-            public void onSuccess(BanksPointResponse response) {
-                creditCardTransaction.setBankPoint(response, bankType);
-                view.onGetBankPointSuccess(response);
-            }
+        if (creditCardToken != null) {
+            MidtransSDK.getInstance().getBanksPoint(creditCardToken.getTokenId(), new BanksPointCallback() {
+                @Override
+                public void onSuccess(BanksPointResponse response) {
+                    creditCardTransaction.setBankPoint(response, bankType);
+                    view.onGetBankPointSuccess(response);
+                }
 
-            @Override
-            public void onFailure(String reason) {
-                view.onGetBankPointFailed();
-            }
+                @Override
+                public void onFailure(String reason) {
+                    view.onGetBankPointFailed();
+                }
 
-            @Override
-            public void onError(Throwable error) {
-                view.onGetBankPointFailed();
-            }
-        });
+                @Override
+                public void onError(Throwable error) {
+                    view.onGetBankPointFailed();
+                }
+            });
+        } else {
+            view.onGetBankPointFailed();
+        }
     }
 
     public void trackEvent(String eventName) {
