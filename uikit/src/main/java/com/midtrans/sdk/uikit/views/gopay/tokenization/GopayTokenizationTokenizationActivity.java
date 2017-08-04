@@ -45,7 +45,7 @@ public class GopayTokenizationTokenizationActivity extends BasePaymentActivity i
     private void bindViews() {
         inputCountyCode = (TextInputEditText) findViewById(R.id.input_country_code);
         inputCountyCode = (TextInputEditText) findViewById(R.id.input_phone_number);
-        buttonPayNow = (FancyButton) findViewById(R.id.btn_pay_now);
+        buttonPayNow = (FancyButton) findViewById(R.id.btn_continue);
     }
 
 }

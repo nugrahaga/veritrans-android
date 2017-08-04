@@ -32,10 +32,10 @@
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/input_country_code"
                 android:layout_width="wrap_content"
-                android:inputType="number"
                 android:layout_height="wrap_content"
-                android:text="@string/country_code_default"
-                android:hint="@string/country_code" />
+                android:hint="@string/country_code"
+                android:inputType="number"
+                android:text="@string/country_code_default" />
         </android.support.design.widget.TextInputLayout>
 
 
