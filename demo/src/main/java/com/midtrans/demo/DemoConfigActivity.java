@@ -24,8 +24,6 @@ import android.widget.Toast;
 import com.midtrans.demo.widgets.DemoRadioButton;
 import com.midtrans.demo.widgets.DemoTextView;
 import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback;
-import com.midtrans.sdk.corekit.core.SdkCoreFlowBuilder;
-import com.midtrans.sdk.corekit.core.SdkCoreKitBuilder;
 import com.midtrans.sdk.corekit.core.LocalDataHandler;
 import com.midtrans.sdk.corekit.core.MidtransSDK;
 import com.midtrans.sdk.corekit.core.TransactionRequest;
@@ -48,7 +46,6 @@ import com.midtrans.sdk.corekit.models.snap.EnabledPayment;
 import com.midtrans.sdk.corekit.models.snap.Installment;
 import com.midtrans.sdk.corekit.models.snap.TransactionResult;
 import com.midtrans.sdk.corekit.utilities.Utils;
-import com.midtrans.sdk.scancard.ScanCard;
 import com.midtrans.sdk.uikit.PaymentMethods;
 import com.midtrans.sdk.uikit.SdkUIFlowBuilder;
 import com.midtrans.sdk.uikit.widgets.FancyButton;
@@ -2399,16 +2396,21 @@ public class DemoConfigActivity extends AppCompatActivity implements Transaction
     }
 
     private void initMidtransSDK() {
-        SdkUIFlowBuilder.init().setClientKey(BuildConfig.CLIENT_KEY).buildSDK();
-
-        SdkUIFlowBuilder.init(this, BuildConfig.CLIENT_KEY, BuildConfig.BASE_URL, this)
-                .setExternalScanner(new ScanCard())
+        SdkUIFlowBuilder.init().setClientKey(BuildConfig.CLIENT_KEY)
+                .setContext(this)
                 .enableLog(true)
-                .useBuiltInTokenStorage(true)
-                .setDefaultText("fonts/SourceSansPro-Regular.ttf")
-                .setBoldText("fonts/SourceSansPro-Bold.ttf")
-                .setSemiBoldText("fonts/SourceSansPro-Semibold.ttf")
+                .setTransactionFinishedCallback(this)
                 .buildSDK();
+
+
+//        SdkUIFlowBuilder.init(this, BuildConfig.CLIENT_KEY, BuildConfig.BASE_URL, this)
+//                .setExternalScanner(new ScanCard())
+//                .enableLog(true)
+//                .useBuiltInTokenStorage(true)
+//                .setDefaultText("fonts/SourceSansPro-Regular.ttf")
+//                .setBoldText("fonts/SourceSansPro-Bold.ttf")
+//                .setSemiBoldText("fonts/SourceSansPro-Semibold.ttf")
+//                .buildSDK();
     }
 
     @Override

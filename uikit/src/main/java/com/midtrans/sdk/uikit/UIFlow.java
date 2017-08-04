@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.midtrans.sdk.corekit.core.ISdkFlow;
 import com.midtrans.sdk.corekit.core.MidtransSDK;
 import com.midtrans.sdk.uikit.activities.UserDetailsActivity;
+import com.midtrans.sdk.uikit.utilities.UiKitConstants;
 
 /**
  * Created by ziahaqi on 15/06/2016.
@@ -16,8 +17,9 @@ public class UIFlow implements ISdkFlow {
     public void runUIFlow(Context context, String snapToken) {
         MidtransSDK sdk = MidtransSDK.getInstance();
         if (sdk != null) {
-            context.startActivity(new Intent(context,
-                    UserDetailsActivity.class));
+            Intent intent = new Intent(context, UserDetailsActivity.class);
+            intent.putExtra(UiKitConstants.EXTRA_SNAP_TOKEN, snapToken);
+            context.startActivity(intent);
         }
     }
 
@@ -26,6 +28,7 @@ public class UIFlow implements ISdkFlow {
         MidtransSDK sdk = MidtransSDK.getInstance();
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
+            intent.putExtra(UiKitConstants.EXTRA_SNAP_TOKEN, snapToken);
             intent.putExtra(UserDetailsActivity.CREDIT_CARD_ONLY, true);
             context.startActivity(intent);
         }
@@ -36,6 +39,7 @@ public class UIFlow implements ISdkFlow {
         MidtransSDK sdk = MidtransSDK.getInstance();
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
+            intent.putExtra(UiKitConstants.EXTRA_SNAP_TOKEN, snapToken);
             intent.putExtra(UserDetailsActivity.BANK_TRANSFER_ONLY, true);
             context.startActivity(intent);
         }
@@ -48,6 +52,7 @@ public class UIFlow implements ISdkFlow {
             Intent intent = new Intent(context, UserDetailsActivity.class);
             intent.putExtra(UserDetailsActivity.BANK_TRANSFER_ONLY, true);
             intent.putExtra(UserDetailsActivity.BANK_TRANSFER_PERMATA, true);
+            intent.putExtra(UiKitConstants.EXTRA_SNAP_TOKEN, snapToken);
             context.startActivity(intent);
         }
     }
@@ -59,6 +64,7 @@ public class UIFlow implements ISdkFlow {
             Intent intent = new Intent(context, UserDetailsActivity.class);
             intent.putExtra(UserDetailsActivity.BANK_TRANSFER_ONLY, true);
             intent.putExtra(UserDetailsActivity.BANK_TRANSFER_MANDIRI, true);
+            intent.putExtra(UiKitConstants.EXTRA_SNAP_TOKEN, snapToken);
             context.startActivity(intent);
         }
     }
@@ -70,6 +76,7 @@ public class UIFlow implements ISdkFlow {
             Intent intent = new Intent(context, UserDetailsActivity.class);
             intent.putExtra(UserDetailsActivity.BANK_TRANSFER_ONLY, true);
             intent.putExtra(UserDetailsActivity.BANK_TRANSFER_BNI, true);
+            intent.putExtra(UiKitConstants.EXTRA_SNAP_TOKEN, snapToken);
             context.startActivity(intent);
         }
     }
@@ -81,6 +88,7 @@ public class UIFlow implements ISdkFlow {
             Intent intent = new Intent(context, UserDetailsActivity.class);
             intent.putExtra(UserDetailsActivity.BANK_TRANSFER_ONLY, true);
             intent.putExtra(UserDetailsActivity.BANK_TRANSFER_BCA, true);
+            intent.putExtra(UiKitConstants.EXTRA_SNAP_TOKEN, snapToken);
             context.startActivity(intent);
         }
     }
@@ -92,6 +100,7 @@ public class UIFlow implements ISdkFlow {
             Intent intent = new Intent(context, UserDetailsActivity.class);
             intent.putExtra(UserDetailsActivity.BANK_TRANSFER_ONLY, true);
             intent.putExtra(UserDetailsActivity.BANK_TRANSFER_OTHER, true);
+            intent.putExtra(UiKitConstants.EXTRA_SNAP_TOKEN, snapToken);
             context.startActivity(intent);
         }
     }
@@ -102,6 +111,7 @@ public class UIFlow implements ISdkFlow {
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
             intent.putExtra(UserDetailsActivity.BCA_KLIKPAY, true);
+            intent.putExtra(UiKitConstants.EXTRA_SNAP_TOKEN, snapToken);
             context.startActivity(intent);
         }
     }
@@ -112,6 +122,7 @@ public class UIFlow implements ISdkFlow {
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
             intent.putExtra(UserDetailsActivity.KLIK_BCA, true);
+            intent.putExtra(UiKitConstants.EXTRA_SNAP_TOKEN, snapToken);
             context.startActivity(intent);
         }
     }
@@ -122,6 +133,7 @@ public class UIFlow implements ISdkFlow {
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
             intent.putExtra(UserDetailsActivity.MANDIRI_CLICKPAY, true);
+            intent.putExtra(UiKitConstants.EXTRA_SNAP_TOKEN, snapToken);
             context.startActivity(intent);
         }
     }
@@ -132,6 +144,7 @@ public class UIFlow implements ISdkFlow {
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
             intent.putExtra(UserDetailsActivity.MANDIRI_ECASH, true);
+            intent.putExtra(UiKitConstants.EXTRA_SNAP_TOKEN, snapToken);
             context.startActivity(intent);
         }
     }
@@ -142,6 +155,7 @@ public class UIFlow implements ISdkFlow {
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
             intent.putExtra(UserDetailsActivity.CIMB_CLICKS, true);
+            intent.putExtra(UiKitConstants.EXTRA_SNAP_TOKEN, snapToken);
             context.startActivity(intent);
         }
     }
@@ -152,6 +166,7 @@ public class UIFlow implements ISdkFlow {
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
             intent.putExtra(UserDetailsActivity.BRI_EPAY, true);
+            intent.putExtra(UiKitConstants.EXTRA_SNAP_TOKEN, snapToken);
             context.startActivity(intent);
         }
     }
@@ -162,6 +177,7 @@ public class UIFlow implements ISdkFlow {
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
             intent.putExtra(UserDetailsActivity.TELKOMSEL_CASH, true);
+            intent.putExtra(UiKitConstants.EXTRA_SNAP_TOKEN, snapToken);
             context.startActivity(intent);
         }
     }
@@ -172,6 +188,7 @@ public class UIFlow implements ISdkFlow {
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
             intent.putExtra(UserDetailsActivity.INDOSAT_DOMPETKU, true);
+            intent.putExtra(UiKitConstants.EXTRA_SNAP_TOKEN, snapToken);
             context.startActivity(intent);
         }
     }
@@ -182,6 +199,7 @@ public class UIFlow implements ISdkFlow {
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
             intent.putExtra(UserDetailsActivity.XL_TUNAI, true);
+            intent.putExtra(UiKitConstants.EXTRA_SNAP_TOKEN, snapToken);
             context.startActivity(intent);
         }
     }
@@ -192,6 +210,7 @@ public class UIFlow implements ISdkFlow {
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
             intent.putExtra(UserDetailsActivity.INDOMARET, true);
+            intent.putExtra(UiKitConstants.EXTRA_SNAP_TOKEN, snapToken);
             context.startActivity(intent);
         }
     }
@@ -202,6 +221,7 @@ public class UIFlow implements ISdkFlow {
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
             intent.putExtra(UserDetailsActivity.KIOSON, true);
+            intent.putExtra(UiKitConstants.EXTRA_SNAP_TOKEN, snapToken);
             context.startActivity(intent);
         }
     }
@@ -212,6 +232,7 @@ public class UIFlow implements ISdkFlow {
         if (sdk != null) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
             intent.putExtra(UserDetailsActivity.GIFT_CARD, true);
+            intent.putExtra(UiKitConstants.EXTRA_SNAP_TOKEN, snapToken);
             context.startActivity(intent);
         }
     }

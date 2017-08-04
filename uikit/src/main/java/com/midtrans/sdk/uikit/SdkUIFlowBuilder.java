@@ -32,7 +32,8 @@ public class SdkUIFlowBuilder extends BaseSdkBuilder<SdkUIFlowBuilder> {
     }
 
     private SdkUIFlowBuilder() {
-
+        this.flow = UI_FLOW;
+        this.sdkFlow = new UIFlow();
     }
 
     public static SdkUIFlowBuilder init() {

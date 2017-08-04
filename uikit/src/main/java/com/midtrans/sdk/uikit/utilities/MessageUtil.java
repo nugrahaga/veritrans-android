@@ -2,10 +2,10 @@ package com.midtrans.sdk.uikit.utilities;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.midtrans.sdk.uikit.BuildConfig;
 import com.midtrans.sdk.uikit.R;
-import com.midtrans.sdk.uikit.activities.MandiriClickPayActivity;
 
 import java.util.ArrayList;
 
@@ -28,7 +28,7 @@ public class MessageUtil {
     public static final String MAINTENANCE = "maintenance";
     public static final String RETROFIT_TIMEOUT = "timed out";
     public static final String STATUS_UNSUCCESSFUL = "Payment has not been made";
-
+    private static final String NOT_ACCEPTABLE = "406 Not Acceptable";
 
 
     public static String createMessageWhenCheckoutFailed(Context context, ArrayList<String> statusMessage) {
@@ -68,19 +68,26 @@ public class MessageUtil {
     public static String createMessageWhenCheckoutError(Context context, String statusMessage, String defaultMessage) {
         String message;
 
+        Log.d("xer", "sta:" + statusMessage);
+
         if (BuildConfig.FLAVOR.equals(FLAVOR_DEVELOPMENT)) {
             if (TextUtils.isEmpty(statusMessage)) {
                 message = context.getString(R.string.checkout_error_empty_response);
+            } else if (statusMessage.contains(NOT_ACCEPTABLE)) {
+                message = context.getString(R.string.message_error_has_been_processed);
             } else {
                 message = statusMessage;
             }
         } else {
             if (!TextUtils.isEmpty(statusMessage) && statusMessage.contains(TIMEOUT)) {
                 message = context.getString(R.string.timeout_message);
+            } else if (statusMessage.contains(NOT_ACCEPTABLE)) {
+                message = context.getString(R.string.message_error_has_been_processed);
             } else {
                 message = defaultMessage;
             }
         }
+
         return message;
     }
 
@@ -113,10 +120,9 @@ public class MessageUtil {
 
         if (errorMessage == null) {
             message = context.getString(R.string.error_empty_response);
-        } else if(!TextUtils.isEmpty(statusCode) && statusCode.equals(UiKitConstants.STATUS_CODE_500)){
+        } else if (!TextUtils.isEmpty(statusCode) && statusCode.equals(UiKitConstants.STATUS_CODE_500)) {
             message = context.getString(R.string.message_error_internal_server);
-        }
-        else {
+        } else {
             if (errorMessage.contains(TIME_OUT) || errorMessage.contains(TIMED_OUT)) {
                 message = context.getString(R.string.timeout_message);
             }

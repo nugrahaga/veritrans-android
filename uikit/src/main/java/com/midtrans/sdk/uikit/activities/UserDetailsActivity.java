@@ -20,6 +20,7 @@ import com.midtrans.sdk.corekit.models.UserDetail;
 import com.midtrans.sdk.uikit.R;
 import com.midtrans.sdk.uikit.fragments.UserAddressFragment;
 import com.midtrans.sdk.uikit.fragments.UserDetailFragment;
+import com.midtrans.sdk.uikit.utilities.UiKitConstants;
 
 import java.util.ArrayList;
 
@@ -102,6 +103,10 @@ public class UserDetailsActivity extends BaseActivity {
                     } else if (getIntent().getBooleanExtra(GIFT_CARD, false)) {
                         paymentOptionIntent.putExtra(GIFT_CARD, true);
                     }
+
+                    paymentOptionIntent.putExtra(UiKitConstants.EXTRA_SNAP_TOKEN,
+                            getIntent().getStringExtra(UiKitConstants.EXTRA_SNAP_TOKEN));
+
                     startActivity(paymentOptionIntent);
                     if (MidtransSDK.getInstance().getUIKitCustomSetting() != null
                             && MidtransSDK.getInstance().getUIKitCustomSetting().isEnabledAnimation()) {

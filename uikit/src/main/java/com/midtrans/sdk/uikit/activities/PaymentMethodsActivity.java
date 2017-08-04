@@ -13,7 +13,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -51,6 +50,7 @@ import com.midtrans.sdk.uikit.models.EnabledPayments;
 import com.midtrans.sdk.uikit.models.ItemViewDetails;
 import com.midtrans.sdk.uikit.utilities.MessageUtil;
 import com.midtrans.sdk.uikit.utilities.SdkUIFlowUtil;
+import com.midtrans.sdk.uikit.utilities.UiKitConstants;
 import com.midtrans.sdk.uikit.views.creditcard.saved.SavedCreditCardActivity;
 import com.midtrans.sdk.uikit.widgets.BoldTextView;
 import com.midtrans.sdk.uikit.widgets.DefaultTextView;
@@ -268,33 +268,40 @@ public class PaymentMethodsActivity extends BaseActivity implements PaymentMetho
         progressContainer.setVisibility(View.VISIBLE);
         enableButtonBack(false);
         UserDetail userDetail = LocalDataHandler.readObject(getString(R.string.user_details), UserDetail.class);
-        midtransSDK.checkout(userDetail.getUserId(), new CheckoutCallback() {
-            @Override
-            public void onSuccess(Token token) {
-                Log.i(TAG, "checkout token:" + token.getTokenId());
-                LocalDataHandler.saveString(Constants.AUTH_TOKEN, token.getTokenId());
-                getPaymentOptions(token.getTokenId());
-            }
+        String snapToken = getIntent().getStringExtra(UiKitConstants.EXTRA_SNAP_TOKEN);
 
-            @Override
-            public void onFailure(Token token, String reason) {
-                Log.d(TAG, "Failed to registering transaction: " + reason);
-                enableButtonBack(true);
-                String errorMessage = MessageUtil.createMessageWhenCheckoutFailed(PaymentMethodsActivity.this, token.getErrorMessage());
-                showErrorMessage(errorMessage);
-            }
+        if (TextUtils.isEmpty(snapToken)) {
+            midtransSDK.checkout(userDetail.getUserId(), new CheckoutCallback() {
+                @Override
+                public void onSuccess(Token token) {
+                    Logger.d(TAG, "checkout token:" + token.getTokenId());
+                    LocalDataHandler.saveString(Constants.AUTH_TOKEN, token.getTokenId());
+                    getPaymentOptions(token.getTokenId());
+                }
 
-            @Override
-            public void onError(Throwable error) {
-                Log.e("xxerror", "error:" + error);
-                error.printStackTrace();
-                enableButtonBack(true);
-                String errorMessage = MessageUtil.createMessageWhenCheckoutError(PaymentMethodsActivity.this,
-                        error.getMessage(),
-                        getString(R.string.error_unable_to_connect));
-                showFallbackErrorPage(errorMessage);
-            }
-        });
+                @Override
+                public void onFailure(Token token, String reason) {
+                    Logger.d(TAG, "Failed to registering transaction: " + reason);
+                    enableButtonBack(true);
+                    String errorMessage = MessageUtil.createMessageWhenCheckoutFailed(PaymentMethodsActivity.this, token.getErrorMessage());
+                    showErrorMessage(errorMessage);
+                }
+
+                @Override
+                public void onError(Throwable error) {
+                    Logger.e(TAG, "onError>checkout:" + error);
+                    error.printStackTrace();
+                    enableButtonBack(true);
+                    String errorMessage = MessageUtil.createMessageWhenCheckoutError(PaymentMethodsActivity.this,
+                            error.getMessage(),
+                            getString(R.string.error_unable_to_connect));
+                    showFallbackErrorPage(errorMessage);
+                }
+            });
+        } else {
+            LocalDataHandler.saveString(Constants.AUTH_TOKEN, snapToken);
+            getPaymentOptions(snapToken);
+        }
     }
 
     private void showFallbackErrorPage(String message) {

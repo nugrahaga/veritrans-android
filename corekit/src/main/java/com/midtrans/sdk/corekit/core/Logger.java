@@ -7,11 +7,12 @@ import com.midtrans.sdk.corekit.BuildConfig;
 /**
  * helper class to display log messages on logcat.</p> you can also disable log message for example
  * in release mode of your application using instance of {@link SdkCoreFlowBuilder#enableLog(boolean)}
- *
+ * <p>
  * Created by shivam on 10/20/15.
  */
 public class Logger {
     public static boolean enabled = false;
+
     public static void d(String tag, String message) {
         if (enabled) {
             Log.d("" + tag, "" + message);
@@ -50,4 +51,9 @@ public class Logger {
         }
     }
 
+    public static void e(String message, Throwable e) {
+        if (enabled) {
+            Log.e(Constants.TAG, "" + message, e);
+        }
+    }
 }

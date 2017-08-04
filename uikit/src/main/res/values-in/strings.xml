@@ -582,5 +582,12 @@
     <string name="total_bank_point">Total poin anda</string>
     <string name="status_rba_unsuccessful">Pembayaran belum dilakukan</string>
     <string name="message_error_internal_server">Maaf, terdapat masalah internal. Silakan ulangi lagi, atau coba dengan metode pembayaran lain.</string>
+    <string name="message_error_has_been_processed">Maaf, transaksi sudah diproses</string>
+    <string name="hint_gopay_phone_number">GO-PAY Registered Phone Number</string>
+    <string name="country_code">Country Code</string>
+    <string name="info_gopay_tokenization">Make sure your phone number is <b>registered with GO-JEK</b> and has <b>sufficient GO-PAY balance</b></string>
+
+    <string name="button_label_continue">Lanjutkan</string>
+
 
 </resources>

@@ -40,4 +40,7 @@ public class UiKitConstants {
     // webview url callback pattern
     public static final String CALLBACK_PATTERN_RBA = "/token/rba/callback/";
     public static final String CALLBACK_PATTERN_3DS = "/token/callback/";
+
+    //extra
+    public static final String EXTRA_SNAP_TOKEN = "snap.token";
 }

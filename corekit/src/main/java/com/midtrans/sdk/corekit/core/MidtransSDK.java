@@ -118,58 +118,6 @@ public class MidtransSDK {
         initializeSharedPreferences();
     }
 
-
-    protected MidtransSDK(@NonNull NewSdkBuilder sdkBuilder) {
-        initNewCorekitSdk(sdkBuilder);
-
-        this.mSnapTransactionManager = new SnapTransactionManager(sdkBuilder.context, MidtransRestAdapter.getSnapRestAPI(sdkBaseUrl, requestTimeOut),
-                MidtransRestAdapter.getMerchantApiClient(merchantServerUrl, requestTimeOut),
-                MidtransRestAdapter.getVeritransApiClient(BuildConfig.BASE_URL, requestTimeOut));
-
-        this.mMixpanelAnalyticsManager = new MixpanelAnalyticsManager(BuildConfig.VERSION_NAME, SdkUtil.getDeviceId(context), clientKey, getFlow(flow));
-        this.mSnapTransactionManager.setSDKLogEnabled(isLogEnabled);
-    }
-
-
-    protected MidtransSDK(@NonNull NewUiKitBuilder sdkBuilder) {
-        initNewCorekitSdk(sdkBuilder);
-        this.merchantName = sdkBuilder.merchantName;
-        this.uiflow = sdkBuilder.sdkFlow;
-        this.defaultText = sdkBuilder.defaultText;
-        this.semiBoldText = sdkBuilder.semiBoldText;
-        this.boldText = sdkBuilder.boldText;
-        this.externalScanner = sdkBuilder.externalScanner;
-        this.UIKitCustomSetting = sdkBuilder.UIKitCustomSetting == null ? new UIKitCustomSetting() : sdkBuilder.UIKitCustomSetting;
-        this.flow = sdkBuilder.flow;
-
-        if (sdkBuilder.colorTheme != null) {
-            this.colorTheme = sdkBuilder.colorTheme;
-        }
-
-        this.mSnapTransactionManager = new SnapTransactionManager(sdkBuilder.context, MidtransRestAdapter.getSnapRestAPI(sdkBaseUrl, requestTimeOut),
-                MidtransRestAdapter.getMerchantApiClient(merchantServerUrl, requestTimeOut),
-                MidtransRestAdapter.getVeritransApiClient(BuildConfig.BASE_URL, requestTimeOut));
-
-        this.mMixpanelAnalyticsManager = new MixpanelAnalyticsManager(BuildConfig.VERSION_NAME, SdkUtil.getDeviceId(context), clientKey, getFlow(flow));
-        this.mSnapTransactionManager.setSDKLogEnabled(isLogEnabled);
-    }
-
-    private void initNewCorekitSdk(NewSdkBuilder sdkBuilder) {
-        this.context = sdkBuilder.context;
-        this.clientKey = sdkBuilder.clientKey;
-        this.merchantServerUrl = sdkBuilder.merchantBaseUrl;
-        this.sdkBaseUrl = BuildConfig.SNAP_BASE_URL;
-        this.transactionFinishedCallback = sdkBuilder.transactionFinishedCallback;
-        this.isLogEnabled = sdkBuilder.enableLog;
-        Logger.enabled = sdkBuilder.enableLog;
-        this.enableBuiltInTokenStorage = sdkBuilder.enableBuiltInTokenStorage;
-        this.flow = sdkBuilder.flow;
-
-        this.promoEngineManager = new PromoEngineManager(sdkBuilder.context, MidtransRestAdapter.getPromoEngineRestAPI(BuildConfig.PROMO_ENGINE_URL, requestTimeOut));
-
-        initializeSharedPreferences();
-    }
-
     /**
      * get Veritrans SDK instance
      *
@@ -437,41 +385,41 @@ public class MidtransSDK {
         if (paymentMethod.equals(PaymentMethod.CREDIT_CARD)) {
             startCreditCardUIFlow(context, snapToken);
         } else if (paymentMethod.equals(PaymentMethod.BANK_TRANSFER)) {
-            startBankTransferUIFlow(context);
+            startBankTransferUIFlow(context, snapToken);
         } else if (paymentMethod.equals(PaymentMethod.BANK_TRANSFER_BCA)) {
-            startBCABankTransferUIFlow(context);
+            startBCABankTransferUIFlow(context, snapToken);
         } else if (paymentMethod.equals(PaymentMethod.BANK_TRANSFER_PERMATA)) {
-            startPermataBankTransferUIFlow(context);
+            startPermataBankTransferUIFlow(context, snapToken);
         } else if (paymentMethod.equals(PaymentMethod.BANK_TRANSFER_MANDIRI)) {
-            startMandiriBankTransferUIFlow(context);
+            startMandiriBankTransferUIFlow(context, snapToken);
         } else if (paymentMethod.equals(PaymentMethod.BANK_TRANSFER_BNI)) {
-            startBniBankTransferUIFlow(context);
+            startBniBankTransferUIFlow(context, snapToken);
         } else if (paymentMethod.equals(PaymentMethod.BANK_TRANSFER_OTHER)) {
-            startOtherBankTransferUIFlow(context);
+            startOtherBankTransferUIFlow(context, snapToken);
         } else if (paymentMethod.equals(PaymentMethod.BCA_KLIKPAY)) {
-            startBCAKlikPayUIFlow(context);
+            startBCAKlikPayUIFlow(context, snapToken);
         } else if (paymentMethod.equals(PaymentMethod.KLIKBCA)) {
-            startKlikBCAUIFlow(context);
+            startKlikBCAUIFlow(context, snapToken);
         } else if (paymentMethod.equals(PaymentMethod.MANDIRI_CLICKPAY)) {
-            startMandiriClickpayUIFlow(context);
+            startMandiriClickpayUIFlow(context, snapToken);
         } else if (paymentMethod.equals(PaymentMethod.MANDIRI_ECASH)) {
-            startMandiriECashUIFlow(context);
+            startMandiriECashUIFlow(context, snapToken);
         } else if (paymentMethod.equals(PaymentMethod.EPAY_BRI)) {
-            startBRIEpayUIFlow(context);
+            startBRIEpayUIFlow(context, snapToken);
         } else if (paymentMethod.equals(PaymentMethod.CIMB_CLICKS)) {
-            startCIMBClicksUIFlow(context);
+            startCIMBClicksUIFlow(context, snapToken);
         } else if (paymentMethod.equals(PaymentMethod.TELKOMSEL_CASH)) {
-            startTelkomselCashUIFlow(context);
+            startTelkomselCashUIFlow(context, snapToken);
         } else if (paymentMethod.equals(PaymentMethod.INDOSAT_DOMPETKU)) {
-            startIndosatDompetkuUIFlow(context);
+            startIndosatDompetkuUIFlow(context, snapToken);
         } else if (paymentMethod.equals(PaymentMethod.XL_TUNAI)) {
-            startXlTunaiUIFlow(context);
+            startXlTunaiUIFlow(context, snapToken);
         } else if (paymentMethod.equals(PaymentMethod.INDOMARET)) {
-            startIndomaretUIFlow(context);
+            startIndomaretUIFlow(context, snapToken);
         } else if (paymentMethod.equals(PaymentMethod.KIOSON)) {
-            startKiosonUIFlow(context);
+            startKiosonUIFlow(context, snapToken);
         } else if (paymentMethod.equals(PaymentMethod.GIFT_CARD_INDONESIA)) {
-            startGiftCardUIFlow(context);
+            startGiftCardUIFlow(context, snapToken);
         } else {
             startPaymentUiFlow(context);
         }
@@ -489,8 +437,9 @@ public class MidtransSDK {
     }
 
     public void startPaymentUiFlow(Context context, String snapToken) {
-        snapTokenAvailable(snapToken);
-        initPaymentUiFlow(context, snapToken);
+        if (snapTokenAvailable(snapToken)) {
+            initPaymentUiFlow(context, snapToken);
+        }
     }
 
     private void initPaymentUiFlow(Context context, String snapToken) {
@@ -500,7 +449,7 @@ public class MidtransSDK {
                     .PAYMENT_METHOD_NOT_SELECTED) {
                 transactionRequest.enableUi(true);
                 if (uiflow != null) {
-                    uiflow.runUIFlow(context);
+                    uiflow.runUIFlow(context, snapToken);
                 }
             }
 
@@ -512,19 +461,6 @@ public class MidtransSDK {
             }
         }
     }
-
-
-    /**
-     * This will start actual execution of credit card UI flow.
-     *
-     * @param context activity context.
-     */
-    private void startCreditCardUIFlow(@NonNull Context context, @NonNull String snapToken) {
-
-        snapTokenAvailable(snapToken);
-        initCreditCardUiFlow(context);
-    }
-
 
     private boolean snapTokenAvailable(String snapToken) {
         if (TextUtils.isEmpty(snapToken)) {
@@ -537,24 +473,18 @@ public class MidtransSDK {
         return true;
     }
 
-
     /**
      * This will start actual execution of credit card UI flow.
      *
      * @param context activity context.
      */
-    private void startCreditCardUIFlow(@NonNull Context context) {
-        initCreditCardUiFlow(context);
-    }
-
-
-    private void initCreditCardUiFlow(Context context) {
+    private void startCreditCardUIFlow(@NonNull Context context, @NonNull String snapToken) {
         if (transactionRequest != null && !isRunning()) {
 
             if (transactionRequest.getPaymentMethod() == Constants.PAYMENT_METHOD_NOT_SELECTED) {
                 transactionRequest.enableUi(true);
                 if (uiflow != null) {
-                    uiflow.runCreditCard(context);
+                    uiflow.runCreditCard(context, snapToken);
                 }
             }
 
@@ -566,29 +496,20 @@ public class MidtransSDK {
             }
         }
     }
+
 
     /**
      * This will start actual execution of Bank Transfer UI flow.
      *
      * @param context activity context.
      */
-    private void startBankTransferUIFlow(@NonNull Context context) {
-        initBankTransferUiFlow(context);
-    }
-
-
-    private void startBankTransferUIFlow(@NonNull Context context, @NonNull String snapToken) {
-        snapTokenAvailable(snapToken);
-        initBankTransferUiFlow(context);
-    }
-
-    private void initBankTransferUiFlow(Context context) {
+    private void startBankTransferUIFlow(@NonNull Context context, String snapToken) {
         if (transactionRequest != null && !isRunning()) {
 
             if (transactionRequest.getPaymentMethod() == Constants.PAYMENT_METHOD_NOT_SELECTED) {
                 transactionRequest.enableUi(true);
                 if (uiflow != null) {
-                    uiflow.runBankTransfer(context);
+                    uiflow.runBankTransfer(context, snapToken);
                 }
             }
 
@@ -600,28 +521,21 @@ public class MidtransSDK {
             }
         }
     }
+
 
     /**
      * This will start actual execution of Bank Transfer UI flow using Permata.
      *
      * @param context activity context.
      */
-    private void startPermataBankTransferUIFlow(@NonNull Context context) {
-        initPermataBankTransferUiFlow(context);
-    }
 
     private void startPermataBankTransferUIFlow(@NonNull Context context, @NonNull String snapToken) {
-        snapTokenAvailable(snapToken);
-        initPermataBankTransferUiFlow(context);
-    }
-
-    private void initPermataBankTransferUiFlow(Context context) {
         if (transactionRequest != null && !isRunning()) {
 
             if (transactionRequest.getPaymentMethod() == Constants.PAYMENT_METHOD_NOT_SELECTED) {
                 transactionRequest.enableUi(true);
                 if (uiflow != null) {
-                    uiflow.runPermataBankTransfer(context);
+                    uiflow.runPermataBankTransfer(context, snapToken);
                 }
             }
 
@@ -633,6 +547,7 @@ public class MidtransSDK {
             }
         }
     }
+
 
     /**
      * This will start actual execution of Bank Transfer UI flow using Mandiri.
@@ -640,22 +555,14 @@ public class MidtransSDK {
      *
      * @param context activity context.
      */
-    private void startMandiriBankTransferUIFlow(@NonNull Context context) {
-        initMandiriBankTransferUiFlow(context);
-    }
 
     private void startMandiriBankTransferUIFlow(@NonNull Context context, @NonNull String snapToken) {
-        snapTokenAvailable(snapToken);
-        initMandiriBankTransferUiFlow(context);
-    }
-
-    private void initMandiriBankTransferUiFlow(Context context) {
         if (transactionRequest != null && !isRunning()) {
 
             if (transactionRequest.getPaymentMethod() == Constants.PAYMENT_METHOD_NOT_SELECTED) {
                 transactionRequest.enableUi(true);
                 if (uiflow != null) {
-                    uiflow.runMandiriBankTransfer(context);
+                    uiflow.runMandiriBankTransfer(context, snapToken);
                 }
             }
 
@@ -668,18 +575,19 @@ public class MidtransSDK {
         }
     }
 
+
     /**
      * This will start actual execution of Bank Transfer UI flow using BNI.
      *
      * @param context activity context.
      */
-    private void startBniBankTransferUIFlow(@NonNull Context context) {
+    private void startBniBankTransferUIFlow(@NonNull Context context, String snapToken) {
         if (transactionRequest != null && !isRunning()) {
 
             if (transactionRequest.getPaymentMethod() == Constants.PAYMENT_METHOD_NOT_SELECTED) {
                 transactionRequest.enableUi(true);
                 if (uiflow != null) {
-                    uiflow.runBniBankTransfer(context);
+                    uiflow.runBniBankTransfer(context, snapToken);
                 }
             }
 
@@ -697,13 +605,13 @@ public class MidtransSDK {
      *
      * @param context activity context.
      */
-    private void startBCABankTransferUIFlow(@NonNull Context context) {
+    private void startBCABankTransferUIFlow(@NonNull Context context, String snapToken) {
         if (transactionRequest != null && !isRunning()) {
 
             if (transactionRequest.getPaymentMethod() == Constants.PAYMENT_METHOD_NOT_SELECTED) {
                 transactionRequest.enableUi(true);
                 if (uiflow != null) {
-                    uiflow.runBCABankTransfer(context);
+                    uiflow.runBCABankTransfer(context, snapToken);
                 }
             }
 
@@ -721,13 +629,13 @@ public class MidtransSDK {
      *
      * @param context activity context.
      */
-    private void startOtherBankTransferUIFlow(@NonNull Context context) {
+    private void startOtherBankTransferUIFlow(@NonNull Context context, String snapToken) {
         if (transactionRequest != null && !isRunning()) {
 
             if (transactionRequest.getPaymentMethod() == Constants.PAYMENT_METHOD_NOT_SELECTED) {
                 transactionRequest.enableUi(true);
                 if (uiflow != null) {
-                    uiflow.runOtherBankTransfer(context);
+                    uiflow.runOtherBankTransfer(context, snapToken);
                 }
             }
 
@@ -745,13 +653,13 @@ public class MidtransSDK {
      *
      * @param context activity context.
      */
-    private void startBCAKlikPayUIFlow(@NonNull Context context) {
+    private void startBCAKlikPayUIFlow(@NonNull Context context, String snapToken) {
         if (transactionRequest != null && !isRunning()) {
 
             if (transactionRequest.getPaymentMethod() == Constants.PAYMENT_METHOD_NOT_SELECTED) {
                 transactionRequest.enableUi(true);
                 if (uiflow != null) {
-                    uiflow.runBCAKlikPay(context);
+                    uiflow.runBCAKlikPay(context, snapToken);
                 }
             }
 
@@ -769,13 +677,13 @@ public class MidtransSDK {
      *
      * @param context activity context.
      */
-    private void startKlikBCAUIFlow(@NonNull Context context) {
+    private void startKlikBCAUIFlow(@NonNull Context context, String snapToken) {
         if (transactionRequest != null && !isRunning()) {
 
             if (transactionRequest.getPaymentMethod() == Constants.PAYMENT_METHOD_NOT_SELECTED) {
                 transactionRequest.enableUi(true);
                 if (uiflow != null) {
-                    uiflow.runKlikBCA(context);
+                    uiflow.runKlikBCA(context, snapToken);
                 }
             }
 
@@ -793,13 +701,13 @@ public class MidtransSDK {
      *
      * @param context activity context.
      */
-    private void startMandiriClickpayUIFlow(@NonNull Context context) {
+    private void startMandiriClickpayUIFlow(@NonNull Context context, String snapToken) {
         if (transactionRequest != null && !isRunning()) {
 
             if (transactionRequest.getPaymentMethod() == Constants.PAYMENT_METHOD_NOT_SELECTED) {
                 transactionRequest.enableUi(true);
                 if (uiflow != null) {
-                    uiflow.runMandiriClickpay(context);
+                    uiflow.runMandiriClickpay(context, snapToken);
                 }
             }
 
@@ -817,13 +725,13 @@ public class MidtransSDK {
      *
      * @param context activity context.
      */
-    private void startMandiriECashUIFlow(@NonNull Context context) {
+    private void startMandiriECashUIFlow(@NonNull Context context, String snapToken) {
         if (transactionRequest != null && !isRunning()) {
 
             if (transactionRequest.getPaymentMethod() == Constants.PAYMENT_METHOD_NOT_SELECTED) {
                 transactionRequest.enableUi(true);
                 if (uiflow != null) {
-                    uiflow.runMandiriECash(context);
+                    uiflow.runMandiriECash(context, snapToken);
                 }
             }
 
@@ -841,13 +749,13 @@ public class MidtransSDK {
      *
      * @param context activity context.
      */
-    private void startCIMBClicksUIFlow(@NonNull Context context) {
+    private void startCIMBClicksUIFlow(@NonNull Context context, String snapToken) {
         if (transactionRequest != null && !isRunning()) {
 
             if (transactionRequest.getPaymentMethod() == Constants.PAYMENT_METHOD_NOT_SELECTED) {
                 transactionRequest.enableUi(true);
                 if (uiflow != null) {
-                    uiflow.runCIMBClicks(context);
+                    uiflow.runCIMBClicks(context, snapToken);
                 }
             }
 
@@ -865,13 +773,13 @@ public class MidtransSDK {
      *
      * @param context activity context.
      */
-    private void startBRIEpayUIFlow(@NonNull Context context) {
+    private void startBRIEpayUIFlow(@NonNull Context context, String snapToken) {
         if (transactionRequest != null && !isRunning()) {
 
             if (transactionRequest.getPaymentMethod() == Constants.PAYMENT_METHOD_NOT_SELECTED) {
                 transactionRequest.enableUi(true);
                 if (uiflow != null) {
-                    uiflow.runBRIEpay(context);
+                    uiflow.runBRIEpay(context, snapToken);
                 }
             }
 
@@ -889,13 +797,13 @@ public class MidtransSDK {
      *
      * @param context activity context.
      */
-    private void startTelkomselCashUIFlow(@NonNull Context context) {
+    private void startTelkomselCashUIFlow(@NonNull Context context, String snapToken) {
         if (transactionRequest != null && !isRunning()) {
 
             if (transactionRequest.getPaymentMethod() == Constants.PAYMENT_METHOD_NOT_SELECTED) {
                 transactionRequest.enableUi(true);
                 if (uiflow != null) {
-                    uiflow.runTelkomselCash(context);
+                    uiflow.runTelkomselCash(context, snapToken);
                 }
             }
 
@@ -913,13 +821,13 @@ public class MidtransSDK {
      *
      * @param context activity context.
      */
-    private void startIndosatDompetkuUIFlow(@NonNull Context context) {
+    private void startIndosatDompetkuUIFlow(@NonNull Context context, String snapToken) {
         if (transactionRequest != null && !isRunning()) {
 
             if (transactionRequest.getPaymentMethod() == Constants.PAYMENT_METHOD_NOT_SELECTED) {
                 transactionRequest.enableUi(true);
                 if (uiflow != null) {
-                    uiflow.runIndosatDompetku(context);
+                    uiflow.runIndosatDompetku(context, snapToken);
                 }
             }
 
@@ -937,13 +845,13 @@ public class MidtransSDK {
      *
      * @param context activity context.
      */
-    private void startIndomaretUIFlow(@NonNull Context context) {
+    private void startIndomaretUIFlow(@NonNull Context context, String snapToken) {
         if (transactionRequest != null && !isRunning()) {
 
             if (transactionRequest.getPaymentMethod() == Constants.PAYMENT_METHOD_NOT_SELECTED) {
                 transactionRequest.enableUi(true);
                 if (uiflow != null) {
-                    uiflow.runIndomaret(context);
+                    uiflow.runIndomaret(context, snapToken);
                 }
             }
 
@@ -961,13 +869,13 @@ public class MidtransSDK {
      *
      * @param context activity context.
      */
-    private void startKiosonUIFlow(@NonNull Context context) {
+    private void startKiosonUIFlow(@NonNull Context context, String snapToken) {
         if (transactionRequest != null && !isRunning()) {
 
             if (transactionRequest.getPaymentMethod() == Constants.PAYMENT_METHOD_NOT_SELECTED) {
                 transactionRequest.enableUi(true);
                 if (uiflow != null) {
-                    uiflow.runKioson(context);
+                    uiflow.runKioson(context, snapToken);
                 }
             }
 
@@ -985,13 +893,13 @@ public class MidtransSDK {
      *
      * @param context activity context.
      */
-    private void startXlTunaiUIFlow(@NonNull Context context) {
+    private void startXlTunaiUIFlow(@NonNull Context context, String snapToken) {
         if (transactionRequest != null && !isRunning()) {
 
             if (transactionRequest.getPaymentMethod() == Constants.PAYMENT_METHOD_NOT_SELECTED) {
                 transactionRequest.enableUi(true);
                 if (uiflow != null) {
-                    uiflow.runXlTunai(context);
+                    uiflow.runXlTunai(context, snapToken);
                 }
             }
 
@@ -1009,13 +917,13 @@ public class MidtransSDK {
      *
      * @param context activity context.
      */
-    private void startGiftCardUIFlow(@NonNull Context context) {
+    private void startGiftCardUIFlow(@NonNull Context context, String snapToken) {
         if (transactionRequest != null && !isRunning()) {
 
             if (transactionRequest.getPaymentMethod() == Constants.PAYMENT_METHOD_NOT_SELECTED) {
                 transactionRequest.enableUi(true);
                 if (uiflow != null) {
-                    uiflow.runGci(context);
+                    uiflow.runGci(context, snapToken);
                 }
             }
 

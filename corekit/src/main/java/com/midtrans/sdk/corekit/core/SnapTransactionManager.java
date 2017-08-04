@@ -77,34 +77,40 @@ public class SnapTransactionManager extends BaseTransactionManager {
      * @param callback Checkout Callback
      */
     public void checkout(TokenRequestModel model, final CheckoutCallback callback) {
-        merchantPaymentAPI.checkout(model, new Callback<Token>() {
-            @Override
-            public void success(Token snapTokenDetailResponse, Response response) {
-                releaseResources();
-                if (snapTokenDetailResponse != null) {
-                    if (snapTokenDetailResponse.getTokenId() != null && !snapTokenDetailResponse.getTokenId().equals("")) {
-                        callback.onSuccess(snapTokenDetailResponse);
+        if (merchantPaymentAPI == null) {
+            String errorMessage = context.getString(R.string.error_message_null_merchant_url);
+            callback.onError(new Throwable(errorMessage));
+            Logger.e(TAG, "checkout():" + errorMessage);
+        } else {
+            merchantPaymentAPI.checkout(model, new Callback<Token>() {
+                @Override
+                public void success(Token snapTokenDetailResponse, Response response) {
+                    releaseResources();
+                    if (snapTokenDetailResponse != null) {
+                        if (snapTokenDetailResponse.getTokenId() != null && !snapTokenDetailResponse.getTokenId().equals("")) {
+                            callback.onSuccess(snapTokenDetailResponse);
+                        } else {
+                            callback.onFailure(snapTokenDetailResponse, context.getString(R.string.error_empty_response));
+                        }
                     } else {
-                        callback.onFailure(snapTokenDetailResponse, context.getString(R.string.error_empty_response));
+                        callback.onError(new Throwable(context.getString(R.string.error_empty_response)));
                     }
-                } else {
-                    callback.onError(new Throwable(context.getString(R.string.error_empty_response)));
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError e) {
-                releaseResources();
-
-                if (e.getCause() instanceof SSLHandshakeException || e.getCause() instanceof CertPathValidatorException) {
-                    Logger.i(TAG, "Error in SSL Certificate. " + e.getMessage());
                 }
 
-                e.printStackTrace();
+                @Override
+                public void failure(RetrofitError e) {
+                    releaseResources();
 
-                callback.onError(new Throwable(e.getMessage(), e.getCause()));
-            }
-        });
+                    if (e.getCause() instanceof SSLHandshakeException || e.getCause() instanceof CertPathValidatorException) {
+                        Logger.i(TAG, "Error in SSL Certificate. " + e.getMessage());
+                    }
+
+                    e.printStackTrace();
+
+                    callback.onError(new Throwable(e.getMessage(), e.getCause()));
+                }
+            });
+        }
     }
 
 
