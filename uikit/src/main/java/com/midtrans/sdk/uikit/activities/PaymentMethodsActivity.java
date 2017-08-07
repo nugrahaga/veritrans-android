@@ -27,6 +27,7 @@ import com.midtrans.sdk.corekit.core.Constants;
 import com.midtrans.sdk.corekit.core.LocalDataHandler;
 import com.midtrans.sdk.corekit.core.Logger;
 import com.midtrans.sdk.corekit.core.MidtransSDK;
+import com.midtrans.sdk.corekit.core.PaymentType;
 import com.midtrans.sdk.corekit.core.SdkUtil;
 import com.midtrans.sdk.corekit.core.TransactionRequest;
 import com.midtrans.sdk.corekit.core.themes.ColorTheme;
@@ -709,6 +710,13 @@ public class PaymentMethodsActivity extends BaseActivity implements PaymentMetho
                 overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
             }
         } else if (name.equalsIgnoreCase(getString(R.string.payment_method_gci))) {
+            Intent gciActivity = new Intent(this, GCIActivity.class);
+            startActivityForResult(gciActivity, Constants.RESULT_CODE_PAYMENT_TRANSFER);
+            if (MidtransSDK.getInstance().getUIKitCustomSetting() != null
+                    && MidtransSDK.getInstance().getUIKitCustomSetting().isEnabledAnimation()) {
+                overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+            }
+        } else if (name.equalsIgnoreCase(getString(R.string.payment_method_gopay))) {
             Intent gciActivity = new Intent(this, GopayTokenizationTokenizationActivity.class);
             startActivityForResult(gciActivity, Constants.RESULT_CODE_PAYMENT_TRANSFER);
             if (MidtransSDK.getInstance().getUIKitCustomSetting() != null
@@ -727,6 +735,7 @@ public class PaymentMethodsActivity extends BaseActivity implements PaymentMetho
     private void initialiseAdapterData(List<EnabledPayment> enabledPayments) {
         data.clear();
         bankTransfers.clear();
+        enabledPayments.add(new EnabledPayment(PaymentType.GOPAY, PaymentType.GOPAY));
         for (EnabledPayment enabledPayment : enabledPayments) {
             if ((enabledPayment.getCategory() != null && enabledPayment.getCategory().equals(getString(R.string.enabled_payment_category_banktransfer)))
                     || enabledPayment.getType().equalsIgnoreCase(getString(R.string.payment_mandiri_bill_payment))) {

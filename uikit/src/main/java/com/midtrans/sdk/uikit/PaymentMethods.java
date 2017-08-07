@@ -3,6 +3,7 @@ package com.midtrans.sdk.uikit;
 import android.content.Context;
 
 import com.midtrans.sdk.corekit.core.Constants;
+import com.midtrans.sdk.corekit.core.PaymentType;
 import com.midtrans.sdk.corekit.models.BankTransferModel;
 import com.midtrans.sdk.corekit.models.PaymentMethodsModel;
 import com.midtrans.sdk.corekit.models.snap.EnabledPayment;
@@ -48,6 +49,8 @@ public class PaymentMethods {
             return getMethodXLTunai(context, 13, status);
         } else if (name.equals(context.getString(R.string.payment_gci))) {
             return getMethodGCI(context, 14, status);
+        } else if (name.equals(PaymentType.GOPAY)) {
+            return getMethodGoPay(context, 15, status);
         } else {
             return null;
         }
@@ -117,6 +120,10 @@ public class PaymentMethods {
 
     private static PaymentMethodsModel getMethodGCI(Context context, int priority, String status) {
         return new PaymentMethodsModel(context.getString(R.string.payment_method_gci), context.getString(R.string.payment_method_description_gci), R.drawable.ic_gci, Constants.PAYMENT_METHOD_NOT_SELECTED, priority, status);
+    }
+
+    private static PaymentMethodsModel getMethodGoPay(Context context, int priority, String status) {
+        return new PaymentMethodsModel(context.getString(R.string.payment_method_gopay), context.getString(R.string.payment_method_description_gopay), R.drawable.ic_launcher, Constants.PAYMENT_METHOD_NOT_SELECTED, priority, status);
     }
 
     public static ArrayList<BankTransferModel> getBankTransferList(Context context) {

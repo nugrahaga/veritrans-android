@@ -15,7 +15,8 @@ public class UiKitConstants {
     public static final int INTENT_CODE_3DS_PAYMENT = 100;
     public static final int INTENT_CODE_RBA_AUTHENTICATION = 102;
     public static final int INTENT_REQUEST_SCAN_CARD = 101;
-
+    public static final int INTENT_CODE_PAYMENT = 99;
+    public static final int INTENT_PAYMENT_STATUS = 105;
 
     public static final String KEY_USER_DETAILS = "user_details";
 
@@ -35,6 +36,7 @@ public class UiKitConstants {
     public static final String STATUS_DENY = "deny";
 
     public static final String STATUS_CODE_500 = "500";
+    public static final String STATUS_CODE_200 = "200";
 
 
     // webview url callback pattern

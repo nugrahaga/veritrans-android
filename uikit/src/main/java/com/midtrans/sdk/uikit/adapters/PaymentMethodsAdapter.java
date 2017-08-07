@@ -1,6 +1,7 @@
 package com.midtrans.sdk.uikit.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,14 +63,16 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
     }
 
     private void disablePaymentView(PaymentViewHolder holder, PaymentMethodsModel paymentMethod) {
-        if (paymentMethod.getStatus().equals(EnabledPayment.STATUS_DOWN)) {
-            holder.layoutPaymentUnavailable.setVisibility(View.VISIBLE);
-            holder.itemView.setClickable(false);
-            holder.textUnavailable.setVisibility(View.VISIBLE);
-        } else {
-            holder.layoutPaymentUnavailable.setVisibility(View.GONE);
-            holder.itemView.setClickable(true);
-            holder.textUnavailable.setVisibility(View.GONE);
+        if (!TextUtils.isEmpty(paymentMethod.getStatus())) {
+            if (paymentMethod.getStatus().equals(EnabledPayment.STATUS_DOWN)) {
+                holder.layoutPaymentUnavailable.setVisibility(View.VISIBLE);
+                holder.itemView.setClickable(false);
+                holder.textUnavailable.setVisibility(View.VISIBLE);
+            } else {
+                holder.layoutPaymentUnavailable.setVisibility(View.GONE);
+                holder.itemView.setClickable(true);
+                holder.textUnavailable.setVisibility(View.GONE);
+            }
         }
     }
 

@@ -5,4 +5,10 @@ package com.midtrans.sdk.uikit.views.gopay.tokenization;
  */
 
 public interface GopayTokenizationView {
+
+    public void onTokenizeSuccess(String phoneNumber);
+
+    public void onTokenizeFailure();
+
+    public void onTokenizeError();
 }

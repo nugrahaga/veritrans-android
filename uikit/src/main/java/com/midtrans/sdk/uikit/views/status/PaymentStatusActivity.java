@@ -29,8 +29,9 @@ import java.util.regex.Pattern;
  */
 
 public class PaymentStatusActivity extends BaseActivity {
-    public static final String EXTRA_PAYMENT_RESULT = "payment.result";
     private static final String TAG = PaymentStatusActivity.class.getSimpleName();
+
+    public static final String EXTRA_PAYMENT_RESULT = "payment.result";
 
     private FancyButton buttonFinish;
     private FancyButton buttonInstruction;
@@ -285,6 +286,10 @@ public class PaymentStatusActivity extends BaseActivity {
                     break;
                 case PaymentType.INDOSAT_DOMPETKU:
                     paymentType.setText(getString(R.string.payment_method_indosat_dompetku));
+                    break;
+
+                case PaymentType.GOPAY:
+                    paymentType.setText(getString(R.string.payment_method_gopay));
                     break;
             }
 

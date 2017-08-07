@@ -10,4 +10,9 @@ public class GopayTokenizationPresenter {
     public GopayTokenizationPresenter(GopayTokenizationView view) {
         this.view =view;
     }
+
+    public void tokenize(String countryCode, String phoneNumber) {
+        // todo gopay tokenize
+        view.onTokenizeSuccess(phoneNumber);
+    }
 }

@@ -588,6 +588,11 @@
     <string name="info_gopay_tokenization">Make sure your phone number is <b>registered with GO-JEK</b> and has <b>sufficient GO-PAY balance</b></string>
 
     <string name="button_label_continue">Lanjutkan</string>
-
+    <string name="info_gopay_payment">Kami telah mengirim sebuah <b>kode verifikasi</b> via sms ke nomor telepon akun GO-PAY anda <b>%1$s</b></string>
+    <string name="hint_gopay_verification_code">Masukkan kode verifikasi</string>
+    <string name="message_error_empty_country_code">Masukkan kode negara</string>
+    <string name="message_error_empty_phone_number">Masukkan nomor telepon</string>
+    <string name="error_message_empty_verification_code">Masukkan kode verifikasi</string>
+    <string name="payment_method_description_gopay">Pembayaran Go-PAY</string>
 
 </resources>
