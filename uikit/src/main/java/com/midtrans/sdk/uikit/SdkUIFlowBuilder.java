@@ -41,7 +41,7 @@ public class SdkUIFlowBuilder extends BaseSdkBuilder<SdkUIFlowBuilder> {
     }
 
     /**
-     * use init() method instead
+     * this Sdk builder is deprecated, please use init() method instead
      *
      * @param context
      * @param clientKey
@@ -49,7 +49,6 @@ public class SdkUIFlowBuilder extends BaseSdkBuilder<SdkUIFlowBuilder> {
      * @param callback
      * @return
      */
-
     @Deprecated
     public static SdkUIFlowBuilder init(Context context, String clientKey, String merchantServerUrl, TransactionFinishedCallback callback) {
         return new SdkUIFlowBuilder(context, clientKey, merchantServerUrl, callback);

@@ -284,6 +284,8 @@ public class CreditCardDetailsPresenter {
     }
 
     public boolean isShowPaymentStatus() {
+        Logger.d(TAG, "xstatus:" + MidtransSDK.getInstance().getUIKitCustomSetting().isShowPaymentStatus());
+
         return MidtransSDK.getInstance().getUIKitCustomSetting().isShowPaymentStatus();
     }
 

@@ -366,7 +366,7 @@
     <string name="error_card_unavailable">Card is not available</string>
     <string name="callback_unimplemented">Callback Unimplemented</string>
     <string name="hint_indosat_phone_number">Indosat Phone Number</string>
-    <string name="transaction_finished_callback_unimplemented">TransactionFinishedCallback unimplemented</string>
+    <string name="transaction_finished_callback_unimplemented">TransactionFinishedCallback unimplemented, please set transaction finish callback on Midtrans SDK</string>
 
 
     <!-- enabled payment -->

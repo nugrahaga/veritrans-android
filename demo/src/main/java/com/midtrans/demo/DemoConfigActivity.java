@@ -46,6 +46,7 @@ import com.midtrans.sdk.corekit.models.snap.EnabledPayment;
 import com.midtrans.sdk.corekit.models.snap.Installment;
 import com.midtrans.sdk.corekit.models.snap.TransactionResult;
 import com.midtrans.sdk.corekit.utilities.Utils;
+import com.midtrans.sdk.scancard.ScanCard;
 import com.midtrans.sdk.uikit.PaymentMethods;
 import com.midtrans.sdk.uikit.SdkUIFlowBuilder;
 import com.midtrans.sdk.uikit.widgets.FancyButton;
@@ -2396,21 +2397,20 @@ public class DemoConfigActivity extends AppCompatActivity implements Transaction
     }
 
     private void initMidtransSDK() {
-        SdkUIFlowBuilder.init().setClientKey(BuildConfig.CLIENT_KEY)
+
+        SdkUIFlowBuilder.init()
                 .setContext(this)
-                .enableLog(true)
+                .setClientKey(BuildConfig.CLIENT_KEY)
                 .setTransactionFinishedCallback(this)
+                .setMerchantBaseUrl(BuildConfig.BASE_URL)
+                .setExternalScanner(new ScanCard())
+                .enableLog(true)
+                .useBuiltInTokenStorage(true)
+                .setDefaultText("fonts/SourceSansPro-Regular.ttf")
+                .setBoldText("fonts/SourceSansPro-Bold.ttf")
+                .setSemiBoldText("fonts/SourceSansPro-Semibold.ttf")
                 .buildSDK();
 
-
-//        SdkUIFlowBuilder.init(this, BuildConfig.CLIENT_KEY, BuildConfig.BASE_URL, this)
-//                .setExternalScanner(new ScanCard())
-//                .enableLog(true)
-//                .useBuiltInTokenStorage(true)
-//                .setDefaultText("fonts/SourceSansPro-Regular.ttf")
-//                .setBoldText("fonts/SourceSansPro-Bold.ttf")
-//                .setSemiBoldText("fonts/SourceSansPro-Semibold.ttf")
-//                .buildSDK();
     }
 
     @Override

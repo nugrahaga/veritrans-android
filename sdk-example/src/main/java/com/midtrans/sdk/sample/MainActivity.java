@@ -34,7 +34,6 @@ import com.midtrans.sdk.corekit.models.snap.CreditCard;
 import com.midtrans.sdk.corekit.models.snap.TransactionResult;
 import com.midtrans.sdk.corekit.utilities.Utils;
 import com.midtrans.sdk.sample.core.CoreFlowActivity;
-import com.midtrans.sdk.scancard.ScanCard;
 import com.midtrans.sdk.uikit.SdkUIFlowBuilder;
 
 import java.util.ArrayList;
@@ -90,8 +89,10 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
     private void initSDK() {
         // SDK initiation for coreflow
         if (mysdkFlow == CORE_FLOW) {
-            SdkCoreFlowBuilder.init(this, BuildConfig.CLIENT_KEY, BuildConfig.BASE_URL)
-                    .enableLog(true)
+            SdkCoreFlowBuilder.init()
+                    .setContext(this)
+                    .setClientKey(BuildConfig.CLIENT_KEY)
+                    .setMerchantBaseUrl(BuildConfig.BASE_URL)
                     .buildSDK();
         } else {
             // Init custom settings
@@ -99,15 +100,19 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
             uisetting.setShowPaymentStatus(true);
 
             // SDK initiation for UIflow
-            SdkUIFlowBuilder.init(this, BuildConfig.CLIENT_KEY, BuildConfig.BASE_URL, this)
-                    .setExternalScanner(new ScanCard()) // initialization for using external scancard
+            SdkUIFlowBuilder.init()
+                    .setContext(this)
+                    .setClientKey(BuildConfig.CLIENT_KEY)
                     .enableLog(true)
+                    .setMerchantBaseUrl(BuildConfig.BASE_URL)
+                    .setTransactionFinishedCallback(this)
                     .useBuiltInTokenStorage(true) // enable built in token storage
                     .setDefaultText("open_sans_regular.ttf")
                     .setSemiBoldText("open_sans_semibold.ttf")
                     .setBoldText("open_sans_bold.ttf")
                     .setUIkitCustomSetting(uisetting) //optional
                     .buildSDK();
+
         }
     }
 
@@ -584,7 +589,7 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
 
     @Override
     public void onTransactionFinished(TransactionResult result) {
-            Log.d("finalx", "rsultd:" + result.getResponse());
+        Log.d("finalx", "rsultd:" + result.getResponse());
 
         if (result.getResponse() != null) {
             Log.d("finalx", "result:" + result.getResponse().getStatusMessage());

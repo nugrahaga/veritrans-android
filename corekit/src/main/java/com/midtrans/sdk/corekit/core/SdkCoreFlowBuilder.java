@@ -26,8 +26,25 @@ public class SdkCoreFlowBuilder extends BaseSdkBuilder<SdkCoreFlowBuilder> {
         this.flow = CORE_FLOW;
     }
 
+    /**
+     * this Sdk builder is deprecated, please use init() method instead
+     *
+     * @param context
+     * @param clientKey
+     * @param merchantServerUrl
+     * @return
+     */
+    @Deprecated
     public static SdkCoreFlowBuilder init(@NonNull Context context, @NonNull String clientKey, @NonNull String merchantServerUrl) {
         return new SdkCoreFlowBuilder(context, clientKey, merchantServerUrl);
+    }
+
+    private SdkCoreFlowBuilder() {
+        this.flow = CORE_FLOW;
+    }
+
+    public static SdkCoreFlowBuilder init() {
+        return new SdkCoreFlowBuilder();
     }
 
     /**
@@ -42,8 +59,24 @@ public class SdkCoreFlowBuilder extends BaseSdkBuilder<SdkCoreFlowBuilder> {
         return this;
     }
 
+    @Deprecated
     public SdkCoreFlowBuilder setSelectedPaymentMethods(ArrayList<PaymentMethodsModel> selectedPaymentMethods) {
         this.selectedPaymentMethods = selectedPaymentMethods;
+        return this;
+    }
+
+    public SdkCoreFlowBuilder setContext(Context context) {
+        this.context = context;
+        return this;
+    }
+
+    public SdkCoreFlowBuilder setClientKey(String clientKey) {
+        this.clientKey = clientKey;
+        return this;
+    }
+
+    public SdkCoreFlowBuilder setMerchantBaseUrl(String merchantBaseUrl) {
+        this.merchantServerUrl = merchantBaseUrl;
         return this;
     }
 }

@@ -366,7 +366,9 @@ public class MidtransSDK {
      * @param paymentMethod payment method.
      */
     public void startPaymentUiFlow(Context context, PaymentMethod paymentMethod) {
-        initUiFlowDirectPayment(context, paymentMethod, null);
+        if (merchantBaseUrlAvailable()) {
+            initUiFlowDirectPayment(context, paymentMethod, null);
+        }
     }
 
     /**
@@ -433,7 +435,9 @@ public class MidtransSDK {
      * @param context current activity.
      */
     public void startPaymentUiFlow(Context context) {
-        initPaymentUiFlow(context, null);
+        if (merchantBaseUrlAvailable()) {
+            initPaymentUiFlow(context, null);
+        }
     }
 
     public void startPaymentUiFlow(Context context, String snapToken) {
@@ -470,6 +474,16 @@ public class MidtransSDK {
             return false;
         }
         LocalDataHandler.saveString(Constants.AUTH_TOKEN, snapToken);
+        return true;
+    }
+
+    private boolean merchantBaseUrlAvailable() {
+        if (TextUtils.isEmpty(merchantServerUrl)) {
+            String message = "merchant base url is required if you want to do checkout from SDK, please set merchant base url on Midtrans SDK";
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+            Logger.e(TAG, message);
+            return false;
+        }
         return true;
     }
 
