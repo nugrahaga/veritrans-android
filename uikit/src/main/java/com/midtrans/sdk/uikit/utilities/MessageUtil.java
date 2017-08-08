@@ -4,10 +4,13 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.midtrans.sdk.corekit.models.TransactionResponse;
 import com.midtrans.sdk.uikit.BuildConfig;
 import com.midtrans.sdk.uikit.R;
+import com.midtrans.sdk.uikit.models.MessageInfo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ziahaqi on 4/19/17.
@@ -29,6 +32,7 @@ public class MessageUtil {
     public static final String RETROFIT_TIMEOUT = "timed out";
     public static final String STATUS_UNSUCCESSFUL = "Payment has not been made";
     private static final String NOT_ACCEPTABLE = "406 Not Acceptable";
+    private static final CharSequence PAYMENT_EXIPIRED = "expired";
 
 
     public static String createMessageWhenCheckoutFailed(Context context, ArrayList<String> statusMessage) {
@@ -128,6 +132,34 @@ public class MessageUtil {
             }
         }
 
+        return message;
+    }
+
+    public static MessageInfo createpaymentFailedMessage(Context context, TransactionResponse response) {
+        MessageInfo message = new MessageInfo(null, null, context.getString(R.string.payment_failed));
+
+        if (response != null) {
+            String statusCode = response.getStatusCode();
+            if (!TextUtils.isEmpty(statusCode)) {
+                if (statusCode.equalsIgnoreCase(UiKitConstants.STATUS_CODE_400)) {
+                    List<String> validationMessages = response.getValidationMessages();
+                    if (validationMessages != null && !validationMessages.isEmpty()) {
+                        if (validationMessages.get(0).contains(PAYMENT_EXIPIRED)) {
+                            message = new MessageInfo(statusCode, context.getString(R.string.status_message_expired),
+                                    context.getString(R.string.details_message_expired));
+                        } else {
+                            message = new MessageInfo(statusCode, context.getString(R.string.status_message_invalid),
+                                    context.getString(R.string.details_message_invalid));
+                        }
+                    } else {
+                        message = new MessageInfo(statusCode, context.getString(R.string.status_message_invalid),
+                                context.getString(R.string.details_message_invalid));
+                    }
+                } else {
+
+                }
+            }
+        }
         return message;
     }
 }

@@ -37,6 +37,8 @@ public class UiKitConstants {
 
     public static final String STATUS_CODE_500 = "500";
     public static final String STATUS_CODE_200 = "200";
+    public static final String STATUS_CODE_400 = "400";
+    public static final String STATUS_CODE_201 = "201";
 
 
     // webview url callback pattern
