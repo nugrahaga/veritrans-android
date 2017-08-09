@@ -598,5 +598,6 @@
     <string name="status_message_expired">Transaksi Anda sudah kadaluarsa</string>
     <string name="status_message_invalid">Transaksi tidak sah</string>
     <string name="details_message_invalid">Transaksi anda tidak dapat diproses. Pastikan informasi pembayaran anda benar</string>
+    <string name="status_message_internal_error">Masalah internal</string>
 
 </resources>
