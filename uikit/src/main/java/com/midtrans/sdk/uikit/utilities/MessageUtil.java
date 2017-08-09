@@ -161,6 +161,9 @@ public class MessageUtil {
                         message = new MessageInfo(statusCode, context.getString(R.string.status_message_invalid),
                                 context.getString(R.string.details_message_invalid));
                     }
+                } else if (statusCode.equalsIgnoreCase(UiKitConstants.STATUS_CODE_500)) {
+                    message = new MessageInfo(statusCode, context.getString(R.string.status_message_internal_error),
+                            context.getString(R.string.message_error_internal_server));
                 }
             }
         }
