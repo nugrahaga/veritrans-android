@@ -21,6 +21,7 @@ import com.midtrans.sdk.uikit.R;
 import com.midtrans.sdk.uikit.constants.AnalyticsEventName;
 import com.midtrans.sdk.uikit.fragments.BankTransferFragment;
 import com.midtrans.sdk.uikit.fragments.InstructionIndosatFragment;
+import com.midtrans.sdk.uikit.models.MessageInfo;
 import com.midtrans.sdk.uikit.utilities.MessageUtil;
 import com.midtrans.sdk.uikit.utilities.SdkUIFlowUtil;
 import com.midtrans.sdk.uikit.widgets.DefaultTextView;
@@ -255,7 +256,9 @@ public class IndosatDompetkuActivity extends BaseActivity implements View.OnClic
                         MidtransSDK.getInstance().trackEvent(AnalyticsEventName.PAGE_STATUS_FAILED);
 
                         mTransactionResponse = response;
-                        IndosatDompetkuActivity.this.errorMessage = getString(R.string.message_payment_denied);
+                        MessageInfo message = MessageUtil.createpaymentFailedMessage(IndosatDompetkuActivity.this, response, getString(R.string.message_payment_cannot_proccessed));
+
+                        IndosatDompetkuActivity.this.errorMessage = message.detailsMessage;
                         SdkUIFlowUtil.hideProgressDialog();
 
                         try {

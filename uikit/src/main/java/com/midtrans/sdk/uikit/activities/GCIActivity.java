@@ -19,6 +19,7 @@ import com.midtrans.sdk.corekit.utilities.Utils;
 import com.midtrans.sdk.uikit.R;
 import com.midtrans.sdk.uikit.constants.AnalyticsEventName;
 import com.midtrans.sdk.uikit.fragments.GCIPaymentFragment;
+import com.midtrans.sdk.uikit.models.MessageInfo;
 import com.midtrans.sdk.uikit.utilities.MessageUtil;
 import com.midtrans.sdk.uikit.utilities.SdkUIFlowUtil;
 import com.midtrans.sdk.uikit.widgets.FancyButton;
@@ -184,7 +185,8 @@ public class GCIActivity extends BaseActivity implements View.OnClickListener {
                     //track page status failed
                     MidtransSDK.getInstance().trackEvent(AnalyticsEventName.PAGE_STATUS_FAILED);
 
-                    errorMessage = getString(R.string.message_payment_failed);
+                    MessageInfo message = MessageUtil.createpaymentFailedMessage(GCIActivity.this, response, getString(R.string.message_payment_failed));
+                    errorMessage = message.detailsMessage;
                     transactionResponse = response;
                     SdkUIFlowUtil.hideProgressDialog();
                     if (retryNumber > 0) {

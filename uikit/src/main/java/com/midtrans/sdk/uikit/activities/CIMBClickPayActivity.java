@@ -21,6 +21,7 @@ import com.midtrans.sdk.uikit.R;
 import com.midtrans.sdk.uikit.constants.AnalyticsEventName;
 import com.midtrans.sdk.uikit.fragments.InstructionCIMBFragment;
 import com.midtrans.sdk.uikit.fragments.WebviewFragment;
+import com.midtrans.sdk.uikit.models.MessageInfo;
 import com.midtrans.sdk.uikit.utilities.MessageUtil;
 import com.midtrans.sdk.uikit.utilities.SdkUIFlowUtil;
 import com.midtrans.sdk.uikit.widgets.DefaultTextView;
@@ -168,8 +169,8 @@ public class CIMBClickPayActivity extends BaseActivity implements View.OnClickLi
                 try {
                     //track page status failed
                     MidtransSDK.getInstance().trackEvent(AnalyticsEventName.PAGE_STATUS_FAILED);
-
-                    CIMBClickPayActivity.this.errorMessage = getString(R.string.message_payment_failed);
+                    MessageInfo message = MessageUtil.createpaymentFailedMessage(CIMBClickPayActivity.this, response, getString(R.string.payment_failed));
+                    CIMBClickPayActivity.this.errorMessage = message.detailsMessage;
                     CIMBClickPayActivity.this.transactionResponse = response;
                     SdkUIFlowUtil.hideProgressDialog();
 

@@ -21,6 +21,7 @@ import com.midtrans.sdk.uikit.R;
 import com.midtrans.sdk.uikit.constants.AnalyticsEventName;
 import com.midtrans.sdk.uikit.fragments.InstructionMandiriECashFragment;
 import com.midtrans.sdk.uikit.fragments.WebviewFragment;
+import com.midtrans.sdk.uikit.models.MessageInfo;
 import com.midtrans.sdk.uikit.utilities.MessageUtil;
 import com.midtrans.sdk.uikit.utilities.SdkUIFlowUtil;
 import com.midtrans.sdk.uikit.widgets.DefaultTextView;
@@ -169,7 +170,9 @@ public class MandiriECashActivity extends BaseActivity implements View.OnClickLi
                 MidtransSDK.getInstance().trackEvent(AnalyticsEventName.PAGE_STATUS_FAILED);
 
                 SdkUIFlowUtil.hideProgressDialog();
-                MandiriECashActivity.this.errorMessage = getString(R.string.message_payment_failed);
+                MessageInfo message = MessageUtil.createpaymentFailedMessage(MandiriECashActivity.this, response, getString(R.string.payment_failed));
+
+                MandiriECashActivity.this.errorMessage = message.detailsMessage;
                 MandiriECashActivity.this.transactionResponse = response;
 
                 if (response != null && response.equals(getString(R.string.failed_code_400))) {

@@ -21,6 +21,7 @@ import com.midtrans.sdk.corekit.utilities.Utils;
 import com.midtrans.sdk.uikit.R;
 import com.midtrans.sdk.uikit.constants.AnalyticsEventName;
 import com.midtrans.sdk.uikit.fragments.MandiriClickPayFragment;
+import com.midtrans.sdk.uikit.models.MessageInfo;
 import com.midtrans.sdk.uikit.utilities.MessageUtil;
 import com.midtrans.sdk.uikit.utilities.SdkUIFlowUtil;
 import com.midtrans.sdk.uikit.widgets.DefaultTextView;
@@ -248,9 +249,8 @@ public class MandiriClickPayActivity extends BaseActivity implements View.OnClic
 
                         SdkUIFlowUtil.hideProgressDialog();
                         MandiriClickPayActivity.this.transactionResponse = response;
-                        String errorMessage = MessageUtil.createpaymentFailedMessage(MandiriClickPayActivity.this, response.getStatusCode(),
-                                response.getStatusMessage(), getString(R.string.payment_failed));
-                        MandiriClickPayActivity.this.errorMessage = errorMessage;
+                        MessageInfo message = MessageUtil.createpaymentFailedMessage(MandiriClickPayActivity.this, response, getString(R.string.message_payment_failed));
+                        errorMessage = message.detailsMessage;
                         SdkUIFlowUtil.showToast(MandiriClickPayActivity.this, errorMessage);
                         if (transactionResponse != null && (transactionResponse.getStatusCode().contains(DENY)
                                 || transactionResponse.getStatusCode().equals(getString(R.string.failed_code_400))

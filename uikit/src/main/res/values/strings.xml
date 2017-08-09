@@ -573,7 +573,7 @@
     <string name="message_getcard_token_failed">Authentication failed</string>
     <string name="message_payment_not_completed">Payment information is not completed!</string>
     <string name="message_payment_method_empty">There are no enabled payment methods</string>
-    <string name="message_payment_expired">Payment page is expired</string>
+    <string name="message_payment_expired">Payment page is expired. The order is no longer available and thus cannot be processed. Retry ordering from the store page.</string>
     <string name="status_denied">Denied</string>
     <string name="status_expired">Expired</string>
     <string name="label_expired">expired</string>
@@ -789,7 +789,5 @@
     <string name="status_message_expired">Your order has expired</string>
     <string name="status_message_invalid">Transactoin is invalid</string>
     <string name="details_message_invalid">Transaction cannot be proccessed. Make sure your payment informations is correct</string>
-    <string name="status_message_challange"></string>
-    <string name="detail_message_pending">test</string>
 
 </resources>

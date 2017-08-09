@@ -21,6 +21,7 @@ import com.midtrans.sdk.uikit.R;
 import com.midtrans.sdk.uikit.constants.AnalyticsEventName;
 import com.midtrans.sdk.uikit.fragments.BankTransferFragment;
 import com.midtrans.sdk.uikit.fragments.InstructionTelkomselCashFragment;
+import com.midtrans.sdk.uikit.models.MessageInfo;
 import com.midtrans.sdk.uikit.utilities.MessageUtil;
 import com.midtrans.sdk.uikit.utilities.SdkUIFlowUtil;
 import com.midtrans.sdk.uikit.widgets.DefaultTextView;
@@ -215,7 +216,9 @@ public class TelkomselCashActivity extends BaseActivity implements View.OnClickL
 
                         SdkUIFlowUtil.hideProgressDialog();
                         mTransactionResponse = response;
-                        errorMessage = getString(R.string.error_message_invalid_input_telkomsel);
+                        MessageInfo message = MessageUtil.createpaymentFailedMessage(TelkomselCashActivity.this, response, getString(R.string.message_payment_cannot_proccessed));
+
+                        errorMessage = message.detailsMessage;
 
                         if (response != null && response.getStatusCode().equals(getString(R.string.failed_code_400))) {
                             setUpTransactionStatusFragment(response);

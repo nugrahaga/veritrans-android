@@ -22,6 +22,7 @@ import com.midtrans.sdk.uikit.R;
 import com.midtrans.sdk.uikit.constants.AnalyticsEventName;
 import com.midtrans.sdk.uikit.fragments.InstructionXLTunaiFragment;
 import com.midtrans.sdk.uikit.fragments.XLTunaiPaymentFragment;
+import com.midtrans.sdk.uikit.models.MessageInfo;
 import com.midtrans.sdk.uikit.utilities.MessageUtil;
 import com.midtrans.sdk.uikit.utilities.SdkUIFlowUtil;
 import com.midtrans.sdk.uikit.widgets.FancyButton;
@@ -214,7 +215,9 @@ public class XLTunaiActivity extends BaseActivity implements View.OnClickListene
                 MidtransSDK.getInstance().trackEvent(AnalyticsEventName.PAGE_STATUS_FAILED);
 
                 SdkUIFlowUtil.hideProgressDialog();
-                errorMessage = getString(R.string.message_payment_failed);
+                MessageInfo message = MessageUtil.createpaymentFailedMessage(XLTunaiActivity.this, response, getString(R.string.payment_failed));
+
+                errorMessage = message.detailsMessage;
                 transactionResponse = response;
                 if (response != null && response.getStatusCode().equals(getString(R.string.failed_code_400))) {
                     setUpTransactionStatusFragment(response);

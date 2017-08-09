@@ -135,15 +135,21 @@ public class MessageUtil {
         return message;
     }
 
-    public static MessageInfo createpaymentFailedMessage(Context context, TransactionResponse response) {
+    public static MessageInfo createpaymentFailedMessage(Context context, TransactionResponse response, String defaultMessage) {
         MessageInfo message = new MessageInfo(null, null, context.getString(R.string.payment_failed));
+
+        if (!TextUtils.isEmpty(defaultMessage)) {
+            message = new MessageInfo(null, null, defaultMessage);
+        }
 
         if (response != null) {
             String statusCode = response.getStatusCode();
             if (!TextUtils.isEmpty(statusCode)) {
                 if (statusCode.equalsIgnoreCase(UiKitConstants.STATUS_CODE_400)) {
+
                     List<String> validationMessages = response.getValidationMessages();
                     if (validationMessages != null && !validationMessages.isEmpty()) {
+
                         if (validationMessages.get(0).contains(PAYMENT_EXIPIRED)) {
                             message = new MessageInfo(statusCode, context.getString(R.string.status_message_expired),
                                     context.getString(R.string.details_message_expired));
@@ -155,8 +161,6 @@ public class MessageUtil {
                         message = new MessageInfo(statusCode, context.getString(R.string.status_message_invalid),
                                 context.getString(R.string.details_message_invalid));
                     }
-                } else {
-
                 }
             }
         }

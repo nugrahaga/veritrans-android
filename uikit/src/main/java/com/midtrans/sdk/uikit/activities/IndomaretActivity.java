@@ -24,6 +24,7 @@ import com.midtrans.sdk.uikit.constants.AnalyticsEventName;
 import com.midtrans.sdk.uikit.fragments.BankTransferFragment;
 import com.midtrans.sdk.uikit.fragments.IndomaretPaymentFragment;
 import com.midtrans.sdk.uikit.fragments.InstructionIndomaretFragment;
+import com.midtrans.sdk.uikit.models.MessageInfo;
 import com.midtrans.sdk.uikit.utilities.MessageUtil;
 import com.midtrans.sdk.uikit.utilities.SdkUIFlowUtil;
 import com.midtrans.sdk.uikit.widgets.FancyButton;
@@ -231,7 +232,9 @@ public class IndomaretActivity extends BaseActivity implements View.OnClickListe
                 //track page status failed
                 MidtransSDK.getInstance().trackEvent(AnalyticsEventName.PAGE_STATUS_FAILED);
 
-                IndomaretActivity.this.errorMessage = getString(R.string.message_payment_failed);
+                MessageInfo message = MessageUtil.createpaymentFailedMessage(IndomaretActivity.this, response, getString(R.string.message_payment_cannot_proccessed));
+
+                IndomaretActivity.this.errorMessage = message.detailsMessage;
                 IndomaretActivity.this.transactionResponse = response;
                 SdkUIFlowUtil.hideProgressDialog();
                 SdkUIFlowUtil.showToast(IndomaretActivity.this, "" + errorMessage);

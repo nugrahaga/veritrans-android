@@ -20,6 +20,7 @@ import com.midtrans.sdk.uikit.R;
 import com.midtrans.sdk.uikit.constants.AnalyticsEventName;
 import com.midtrans.sdk.uikit.fragments.BCAKlikPayInstructionFragment;
 import com.midtrans.sdk.uikit.fragments.WebviewFragment;
+import com.midtrans.sdk.uikit.models.MessageInfo;
 import com.midtrans.sdk.uikit.utilities.MessageUtil;
 import com.midtrans.sdk.uikit.utilities.SdkUIFlowUtil;
 import com.midtrans.sdk.uikit.widgets.DefaultTextView;
@@ -173,10 +174,9 @@ public class BCAKlikPayActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onFailure(TransactionResponse response, String reason) {
                 try {
-                    String errorMessage = MessageUtil.createpaymentFailedMessage(BCAKlikPayActivity.this, response.getStatusCode(),
-                            response.getStatusMessage(), getString(R.string.payment_failed));
+                    MessageInfo message = MessageUtil.createpaymentFailedMessage(BCAKlikPayActivity.this, response, getString(R.string.payment_failed));
 
-                    BCAKlikPayActivity.this.errorMessage = errorMessage;
+                    BCAKlikPayActivity.this.errorMessage = message.detailsMessage;
                     BCAKlikPayActivity.this.transactionResponse = response;
                     SdkUIFlowUtil.hideProgressDialog();
 

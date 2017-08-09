@@ -18,6 +18,7 @@ import com.midtrans.sdk.uikit.R;
 import com.midtrans.sdk.uikit.constants.AnalyticsEventName;
 import com.midtrans.sdk.uikit.fragments.KlikBCAFragment;
 import com.midtrans.sdk.uikit.fragments.KlikBCAStatusFragment;
+import com.midtrans.sdk.uikit.models.MessageInfo;
 import com.midtrans.sdk.uikit.utilities.MessageUtil;
 import com.midtrans.sdk.uikit.utilities.SdkUIFlowUtil;
 import com.midtrans.sdk.uikit.widgets.FancyButton;
@@ -153,8 +154,9 @@ public class KlikBCAActivity extends BaseActivity {
                                     public void onFailure(TransactionResponse response, String reason) {
                                         //track page status failed
                                         MidtransSDK.getInstance().trackEvent(AnalyticsEventName.PAGE_STATUS_FAILED);
+                                        MessageInfo message = MessageUtil.createpaymentFailedMessage(KlikBCAActivity.this, response, getString(R.string.message_payment_cannot_proccessed));
 
-                                        errorMessage = getString(R.string.message_payment_cannot_proccessed);
+                                        errorMessage = message.detailsMessage;
                                         transactionResponse = response;
                                         SdkUIFlowUtil.hideProgressDialog();
 

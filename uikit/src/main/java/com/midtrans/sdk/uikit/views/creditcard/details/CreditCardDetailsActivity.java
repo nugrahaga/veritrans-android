@@ -41,6 +41,7 @@ import com.midtrans.sdk.uikit.activities.PaymentWebActivity;
 import com.midtrans.sdk.uikit.constants.AnalyticsEventName;
 import com.midtrans.sdk.uikit.fragments.WebviewFragment;
 import com.midtrans.sdk.uikit.models.CreditCardType;
+import com.midtrans.sdk.uikit.models.MessageInfo;
 import com.midtrans.sdk.uikit.scancard.ExternalScanner;
 import com.midtrans.sdk.uikit.scancard.ScannerModel;
 import com.midtrans.sdk.uikit.utilities.MessageUtil;
@@ -1274,7 +1275,8 @@ public class CreditCardDetailsActivity extends BasePaymentActivity implements Cr
         hideProgresslayout();
         if (attempt < UiKitConstants.MAX_ATTEMPT) {
             attempt += 1;
-            SdkUIFlowUtil.showApiFailedMessage(this, getString(R.string.message_payment_failed));
+            MessageInfo messageInfo = MessageUtil.createpaymentFailedMessage(this, response, getString(R.string.message_payment_failed));
+            SdkUIFlowUtil.showToast(this, messageInfo.detailsMessage);
         } else {
             showPaymentStatus(response);
         }

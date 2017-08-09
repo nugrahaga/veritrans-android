@@ -26,6 +26,7 @@ import com.midtrans.sdk.uikit.constants.AnalyticsEventName;
 import com.midtrans.sdk.uikit.fragments.BankTransferFragment;
 import com.midtrans.sdk.uikit.fragments.BankTransferPaymentFragment;
 import com.midtrans.sdk.uikit.fragments.MandiriBillPayFragment;
+import com.midtrans.sdk.uikit.models.MessageInfo;
 import com.midtrans.sdk.uikit.utilities.MessageUtil;
 import com.midtrans.sdk.uikit.utilities.SdkUIFlowUtil;
 import com.midtrans.sdk.uikit.widgets.FancyButton;
@@ -555,7 +556,8 @@ public class BankTransferActivity extends BaseActivity implements View.OnClickLi
 
         SdkUIFlowUtil.hideProgressDialog();
         try {
-            BankTransferActivity.this.errorMessage = getString(R.string.message_payment_cannot_proccessed);
+            MessageInfo message = MessageUtil.createpaymentFailedMessage(this, response, getString(R.string.message_payment_cannot_proccessed));
+            BankTransferActivity.this.errorMessage = message.detailsMessage;
             BankTransferActivity.this.transactionResponse = response;
             if (response != null && response.getStatusCode().equals(getString(R.string.failed_code_400))) {
                 setUpTransactionStatusFragment(response);

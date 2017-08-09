@@ -24,6 +24,7 @@ import com.midtrans.sdk.uikit.constants.AnalyticsEventName;
 import com.midtrans.sdk.uikit.fragments.BankTransferFragment;
 import com.midtrans.sdk.uikit.fragments.InstructionKiosonFragment;
 import com.midtrans.sdk.uikit.fragments.KiosonPaymentFragment;
+import com.midtrans.sdk.uikit.models.MessageInfo;
 import com.midtrans.sdk.uikit.utilities.MessageUtil;
 import com.midtrans.sdk.uikit.utilities.SdkUIFlowUtil;
 import com.midtrans.sdk.uikit.widgets.FancyButton;
@@ -239,8 +240,9 @@ public class KiosonActivity extends BaseActivity implements View.OnClickListener
             public void onFailure(TransactionResponse response, String reason) {
                 //track page status failed
                 MidtransSDK.getInstance().trackEvent(AnalyticsEventName.PAGE_STATUS_FAILED);
+                MessageInfo message = MessageUtil.createpaymentFailedMessage(KiosonActivity.this, response, getString(R.string.message_payment_cannot_proccessed));
 
-                KiosonActivity.this.errorMessage = getString(R.string.message_payment_failed);
+                KiosonActivity.this.errorMessage = message.detailsMessage;
                 KiosonActivity.this.transactionResponse = response;
                 SdkUIFlowUtil.hideProgressDialog();
 
