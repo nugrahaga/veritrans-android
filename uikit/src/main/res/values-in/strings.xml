@@ -586,5 +586,6 @@
     <string name="message_card_register_error">Gagal menyimpan informasi kartu</string>
     <string name="message_card_register_success">Informasi kartu berhasil disimpan</string>
     <string name="save_card">Simpan Kartu</string>
+    <string name="card_registration">Card Registration</string>
 
 </resources>

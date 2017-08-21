@@ -773,5 +773,6 @@
     <string name="message_card_register_error">Failed to save card information</string>
     <string name="message_card_register_success">Card information successfully saved</string>
     <string name="save_card">Save Card</string>
+    <string name="card_registration">Card Registration</string>
 
 </resources>

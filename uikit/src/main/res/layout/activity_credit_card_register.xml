@@ -15,19 +15,14 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <include
-            android:id="@+id/container_item_details"
-            layout="@layout/layout_total_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true" />
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/container_security"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:layout_below="@id/container_item_details">
 
             <include layout="@layout/layout_credit_card_register" />
@@ -35,11 +30,12 @@
         </ScrollView>
 
         <LinearLayout
-            android:id="@+id/container_security"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@id/btn_pay_now"
+            android:layout_above="@+id/button_save_card"
             android:layout_marginBottom="@dimen/sixteen_dp"
+            android:layout_marginLeft="@dimen/sixteen_dp"
+            android:layout_marginRight="@dimen/sixteen_dp"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:background="@drawable/grey_rounded_background"
             android:gravity="center_vertical"
@@ -47,15 +43,26 @@
             android:padding="@dimen/eight_dp">
 
             <ImageView
-                android:id="@+id/cc_badge"
-                android:layout_width="match_parent"
+                android:id="@+id/midtrans_lock"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/four_dp"
-                android:layout_marginLeft="@dimen/four_dp"
                 android:layout_marginRight="@dimen/four_dp"
+                android:layout_weight="0.4"
+                android:scaleType="centerInside"
+                android:src="@drawable/midtrans_lock" />
+
+            <ImageView
+                android:id="@+id/cc_badge"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/four_dp"
                 android:layout_marginStart="@dimen/four_dp"
-                android:scaleType="centerInside" />
+                android:layout_weight="0.6"
+                android:scaleType="centerInside"
+                android:src="@drawable/cc_badge" />
         </LinearLayout>
+
 
         <com.midtrans.sdk.uikit.widgets.FancyButton
             android:id="@+id/button_save_card"

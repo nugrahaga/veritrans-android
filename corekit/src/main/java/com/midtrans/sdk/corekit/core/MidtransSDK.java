@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.midtrans.sdk.analytics.MixpanelAnalyticsManager;
 import com.midtrans.sdk.corekit.BuildConfig;
@@ -81,6 +82,7 @@ public class MidtransSDK {
     private BaseColorTheme colorTheme;
     private MerchantData merchantData;
     private Transaction transaction;
+    private CardRegistrationCallback cardRegistrationCallback;
 
     private MidtransSDK(@NonNull BaseSdkBuilder sdkBuilder) {
         this.context = sdkBuilder.context;
@@ -356,12 +358,25 @@ public class MidtransSDK {
 
 
     /**
+     * It will register card PAPI(Payment API) Backend using UI Kit SDK
      *
+     * @param context  Context
+     * @param callback Card Registration Callback
      */
 
-    public void UiCardRegistration(@NonNull Context context, @NonNull CardRegistrationCallback callback){
+    public void UiCardRegistration(@NonNull Context context, @NonNull CardRegistrationCallback callback) {
+        if (context == null) {
+            Log.e(TAG, "context cannot be null");
+            return;
+        }
 
-        uiflow.runCardRegistration(context, callback);
+        if (callback == null) {
+            Logger.d(TAG, context.getString(R.string.callback_unimplemented));
+            return;
+        }
+
+        this.cardRegistrationCallback = callback;
+        this.uiflow.runCardRegistration(context, callback);
     }
 
     /**
@@ -1791,4 +1806,7 @@ public class MidtransSDK {
     }
 
 
+    public CardRegistrationCallback getCardRegistrationCallback() {
+        return cardRegistrationCallback;
+    }
 }

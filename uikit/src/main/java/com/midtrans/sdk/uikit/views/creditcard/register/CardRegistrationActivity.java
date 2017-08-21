@@ -2,10 +2,14 @@ package com.midtrans.sdk.uikit.views.creditcard.register;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -13,7 +17,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.midtrans.sdk.corekit.callback.CardRegistrationCallback;
 import com.midtrans.sdk.corekit.core.Logger;
 import com.midtrans.sdk.corekit.models.BankType;
 import com.midtrans.sdk.corekit.models.CardRegistrationResponse;
@@ -38,7 +41,6 @@ import java.util.Date;
 public class CardRegistrationActivity extends BaseActivity implements CardRegistrationView {
 
     private static final String TAG = CardRegistrationActivity.class.getSimpleName();
-    public static final String EXTRA_CALLBACK = "extra.callback";
 
     private TextInputLayout containerCardNumber;
     private TextInputLayout containerCardCvv;
@@ -58,6 +60,7 @@ public class CardRegistrationActivity extends BaseActivity implements CardRegist
 
     private CardRegistrationPresenter presenter;
     private String lastExpDate = "";
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,21 +68,28 @@ public class CardRegistrationActivity extends BaseActivity implements CardRegist
         setContentView(R.layout.activity_credit_card_register);
         initProperties();
         initActionButton();
+        initToolbarBackButton();
         initCardNumber();
         initCardExpiry();
         initCardCvv();
+        initData();
+    }
+
+    private void initData() {
+        textTitle.setText(R.string.card_registration);
     }
 
     private void initProperties() {
-        CardRegistrationCallback callback = (CardRegistrationCallback) getIntent().getSerializableExtra(EXTRA_CALLBACK);
-        presenter = new CardRegistrationPresenter(this, callback);
+        presenter = new CardRegistrationPresenter(this, this);
     }
 
     private void initActionButton() {
         buttonSaveCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                registerCardNumber();
+                if (isValidCardInfo()) {
+                    registerCardNumber();
+                }
             }
         });
 
@@ -168,7 +178,6 @@ public class CardRegistrationActivity extends BaseActivity implements CardRegist
         String cleanCardNumber = cardNumberText.replace(" ", "");
         String cardBin = cleanCardNumber.substring(0, 6);
         String bank = presenter.getBankByCardBin(cardBin);
-        textTitle.setText(R.string.card_details);
 
         if (bank != null) {
 
@@ -187,16 +196,12 @@ public class CardRegistrationActivity extends BaseActivity implements CardRegist
                     break;
                 case BankType.MANDIRI:
                     imageBankLogo.setImageResource(R.drawable.mandiri);
-                    if (presenter.isMandiriDebitCard(cleanCardNumber)) {
-                        textTitle.setText(R.string.mandiri_debit_card);
-                    }
                     break;
                 case BankType.MAYBANK:
                     imageBankLogo.setImageResource(R.drawable.maybank);
                     break;
                 case BankType.BNI_DEBIT_ONLINE:
                     imageBankLogo.setImageResource(R.drawable.bni);
-                    textTitle.setText(R.string.bni_debit_online_card);
                     break;
                 default:
                     imageBankLogo.setImageDrawable(null);
@@ -216,7 +221,7 @@ public class CardRegistrationActivity extends BaseActivity implements CardRegist
         }
 
         // Check card type before setting logo
-        String cleanCardNumber = cardNumberText.replace(" ","");
+        String cleanCardNumber = cardNumberText.replace(" ", "");
         String cardType = Utils.getCardType(cleanCardNumber);
         switch (cardType) {
             case Utils.CARD_TYPE_VISA:
@@ -468,6 +473,8 @@ public class CardRegistrationActivity extends BaseActivity implements CardRegist
         buttonScanCard = (FancyButton) findViewById(R.id.button_scan_card);
 
         textTitle = (DefaultTextView) findViewById(R.id.text_page_title);
+        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+
     }
 
     @Override
@@ -507,6 +514,22 @@ public class CardRegistrationActivity extends BaseActivity implements CardRegist
         finish();
     }
 
+    protected void initToolbarBackButton() {
+        if (toolbar != null) {
+            Drawable backIcon = ContextCompat.getDrawable(this, R.drawable.ic_back);
+            if (backIcon != null) {
+                backIcon.setColorFilter(getPrimaryColor(), PorterDuff.Mode.SRC_ATOP);
+            }
+            toolbar.setNavigationIcon(backIcon);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onBackPressed();
+                }
+            });
+        }
+    }
+
     @Override
     public void onRegisterFailure(CardRegistrationResponse response, String reason) {
         Logger.d(TAG, "onRegisterFailure():" + reason);
@@ -525,5 +548,9 @@ public class CardRegistrationActivity extends BaseActivity implements CardRegist
     public void onRegisterError(Throwable error) {
         Logger.d(TAG, "onRegisterError():" + error.getMessage());
         SdkUIFlowUtil.showToast(this, getString(R.string.message_card_register_error));
+    }
+
+    public boolean isValidCardInfo() {
+        return checkCardNumberValidity() && checkCardExpiryValidity() && checkCardCvvValidity();
     }
 }
