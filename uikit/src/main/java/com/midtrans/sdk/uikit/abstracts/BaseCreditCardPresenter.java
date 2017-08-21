@@ -63,8 +63,10 @@ public class BaseCreditCardPresenter<V extends BaseView> extends BasePaymentPres
 
     protected void deleteSavedCard(SaveCardRequest savedCard, BaseCreditCardPaymentView view) {
         MidtransSDK midtransSDK = MidtransSDK.getInstance();
-        if (midtransSDK.isEnableBuiltInTokenStorage()) {
-            deleteCardFromTokenStorage(savedCard, view);
+        if (midtransSDK.isExternalSavedCardsAvailable()) {
+
+        } else if (midtransSDK.isEnableBuiltInTokenStorage()) {
+            view.onDeleteCardSuccess(savedCard.getMaskedCard());
         } else {
             List<SavedToken> savedTokens = midtransSDK.getCreditCard().getSavedTokens();
             List<SaveCardRequest> savedCards = SdkUIFlowUtil.convertSavedTokens(savedTokens);

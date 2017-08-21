@@ -32,6 +32,7 @@ import com.midtrans.sdk.corekit.models.snap.CreditCard;
 import com.midtrans.sdk.corekit.models.snap.CreditCardPaymentModel;
 import com.midtrans.sdk.corekit.models.snap.MerchantData;
 import com.midtrans.sdk.corekit.models.snap.PromoResponse;
+import com.midtrans.sdk.corekit.models.snap.SavedToken;
 import com.midtrans.sdk.corekit.models.snap.Transaction;
 import com.midtrans.sdk.corekit.models.snap.TransactionResult;
 import com.midtrans.sdk.corekit.models.snap.params.IndosatDompetkuPaymentParams;
@@ -83,6 +84,7 @@ public class MidtransSDK {
     private MerchantData merchantData;
     private Transaction transaction;
     private CardRegistrationCallback cardRegistrationCallback;
+    private List<SavedToken> externalSavedCardsToken;
 
     private MidtransSDK(@NonNull BaseSdkBuilder sdkBuilder) {
         this.context = sdkBuilder.context;
@@ -1742,6 +1744,12 @@ public class MidtransSDK {
         }
     }
 
+    public void setSavedCardsToken(List<SavedToken> savedCardsToken) {
+        if (savedCardsToken != null && !savedCardsToken.isEmpty()) {
+            this.externalSavedCardsToken = savedCardsToken;
+        }
+    }
+
     /**
      * tracking sdk events
      *
@@ -1808,5 +1816,19 @@ public class MidtransSDK {
 
     public CardRegistrationCallback getCardRegistrationCallback() {
         return cardRegistrationCallback;
+    }
+
+    public boolean isExternalSavedCardsAvailable() {
+        return externalSavedCardsToken != null && !externalSavedCardsToken.isEmpty();
+    }
+
+    public void commitExternalSavedCardsIfAvailable() {
+        if (isExternalSavedCardsAvailable()) {
+            for (SavedToken token : externalSavedCardsToken) {
+                token.setTokenType(SavedToken.TWO_CLICKS);
+            }
+
+            creditCard.setSavedTokens(externalSavedCardsToken);
+        }
     }
 }

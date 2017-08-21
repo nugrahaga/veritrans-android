@@ -36,7 +36,6 @@ public class SavedCreditCardPresenter extends BaseCreditCardPresenter<SavedCredi
     }
 
 
-
     private void initSavedCards() {
         if (isBuiltInTokenStorage()) {
             CreditCard creditCard = MidtransSDK.getInstance().getCreditCard();
